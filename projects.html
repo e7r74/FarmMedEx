@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проекты</title>
+
+    <!-- Добавляем favicon -->
+    <link rel="icon" type="image/png" href="pic/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="pic/favicon.png" />
+
+    <style>
+      /* 📌 Основные стили */
+      body {
+          background: #000;
+          color: white;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+          position: relative;
+          overflow-x: hidden;
+          overflow-y: auto;
+      }
+
+      /* 📌 Фон с эффектами */
+      .background-animation {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: url('pic/futuristic-agri-bg.jpg') no-repeat center center/cover;
+          opacity: 0.4;
+          z-index: -1;
+          animation: fadeIn 3s infinite alternate;
+      }
+
+      @keyframes fadeIn {
+          from { opacity: 0.3; }
+          to { opacity: 0.6; }
+      }
+
+      /* 📌 Фиксированная шапка */
+      .header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          background: rgba(0, 0, 0, 0.85);
+          padding: 15px 30px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+          z-index: 1000;
+      }
+      .container-header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap:80px;
+
+      }
+      .logo{
+          display: flex;
+          justify-content: space-between;
+
+      }
+
+      .logo-container {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          text-decoration: none;
+      }
+
+      .logo-container img {
+          width: 70px;
+          height: 70px;
+      }
+
+      .logo-text {
+          font-size: 2rem;
+          font-weight: bold;
+          color: #00ffff;
+          text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+          text-decoration: none;
+      }
+
+      /* 📌 Переключатель языка */
+      .language-selector {
+          position: fixed;
+          top: 35px;
+          right: 40px;
+          background: rgba(0, 0, 0, 0.7);
+          padding: 5px 10px;
+          border-radius: 8px;
+          color: #00ffff;
+          font-size: 1rem;
+          cursor: pointer;
+          z-index: 100;
+      }
+
+      /* 📌 Навигация */
+      .nav {
+          display: flex;
+          gap: 25px;
+          position: relative;
+          left: -200px; /* Подвинул левее */
+
+      }
+
+      .nav a {
+          color: #00ffff;
+          text-decoration: none;
+          font-size: 1.2rem;
+          transition: 0.3s;
+      }
+
+      .nav a:hover {
+          text-shadow: 0 0 15px rgba(0, 255, 255, 1);
+          transform: scale(1.1);
+      }
+
+      /* 📌 Гамбургер-меню (мобильная версия) */
+      .menu-toggle {
+          display: none;
+          flex-direction: column;
+          cursor: pointer;
+          gap: 5px;
+          position: absolute;
+          right: 80px;
+          top: 35px;
+          z-index: 1100;
+      }
+
+      .menu-toggle div {
+          width: 30px;
+          height: 4px;
+          background: #00ffff;
+          transition: 0.3s;
+      }
+
+      /* Анимация гамбургера */
+      .menu-toggle.active div:nth-child(1) {
+          transform: translateY(8px) rotate(45deg);
+      }
+
+      .menu-toggle.active div:nth-child(2) {
+          opacity: 0;
+      }
+
+      .menu-toggle.active div:nth-child(3) {
+          transform: translateY(-8px) rotate(-45deg);
+      }
+
+      .mobile-nav {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 60px;
+          right: 0;
+          width: 100%;
+          background: rgba(0, 0, 0, 0.95);
+          padding: 15px;
+          text-align: center;
+          border-radius: 0 0 10px 10px;
+          box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+      }
+
+      .mobile-nav a {
+          color: #00ffff;
+          text-decoration: none;
+          font-size: 1.2rem;
+          padding: 15px;
+          display: block;
+          transition: 0.3s;
+      }
+
+      .mobile-nav a:hover {
+          background: rgba(0, 255, 255, 0.2);
+      }
+
+      /* Показываем меню при клике */
+      .mobile-nav.active {
+          display: flex;
+      }
+
+      /* 📌 Основной блок */
+      .container {
+          max-width: 1200px;
+          margin: 120px auto;
+          padding: 20px;
+          text-align: center;
+      }
+
+      .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+      justify-items: center;
+      }
+
+
+      .project-card {
+          background: rgba(0, 0, 0, 0.85);
+          padding: 20px;
+          border-radius: 12px;
+          box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+      width: 80%;
+      }
+
+      .project-card:hover {
+          transform: scale(1.05);
+      }
+
+      /* 📌 Стили для модального окна (без прокрутки, шире) */
+      .modal {
+      display: none; /* Окно скрыто при загрузке */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.95);
+      padding: 30px;
+      width: 100%;
+      max-width: 1000px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+      border-radius: 10px;
+      z-index: 2000;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      margin-left:10px ;
+
+      }
+
+
+      /* 📌 Контент внутри модального окна */
+      .modal-content {
+      width: 100%;
+      text-align: left;
+      }
+
+      /* 📌 Изображение в модальном окне */
+      .modal-img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      object-fit: contain;
+      }
+
+      /* 📌 Кнопка-крестик для закрытия */
+      .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #00ffff;
+      cursor: pointer;
+      transition: 0.3s;
+      }
+
+      .close-btn:hover {
+      color: #ff4d4d;
+      transform: scale(1.2);
+      }
+      /*  */
+      .hamburger {
+      display: none; /* покажем только на мобилке */
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      padding: 10px;
+      }
+
+      .hamburger .bar {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      border-radius: 2px;
+      }
+
+      /* 📌 Заголовок и описание */
+      #modal-title {
+      font-size: 2rem;
+      color: #00ffff;
+      margin-bottom: 15px;
+      }
+
+      #modal-description {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: white;
+      }
+
+
+      /* 📌 Адаптация для планшетов (1024px) */
+      @media (max-width: 1024px) {
+
+      .projects-grid {
+      grid-template-columns: 1fr; /* Один столбец вместо двух */
+      gap: 15px; /* Уменьшаем расстояние между карточками */
+      }
+
+      .project-card {
+      width: 90%; /* Уменьшаем ширину карточек */
+      }
+      /*  */
+      .hamburger {
+      display: flex;
+      }
+
+      /* Прячем обычное меню */
+      .nav {
+      display: none;
+      }
+      #nav-menu {
+      display: none;
+      /* flex-direction: column; */
+      justify-content: center;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.253);
+      /* position: absolute; */
+      margin-top: 1%;
+      top: 60px;
+      left: 0;
+      }
+
+      /* Когда активен класс, показываем меню */
+      #nav-menu.active {
+      display: flex;
+      }
+
+      /* Сделать бургер видимым */
+      .hamburger {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      }
+
+      /* Скрыть навигацию на десктопе, если нужно */
+      /* .nav-links nav {
+
+      } */
+      }
+
+      /* 📌 Адаптация для мобильных (768px) */
+      @media (max-width: 768px) {
+
+          .projects-grid {
+              grid-template-columns: 1fr; /* ✅ Карточки теперь идут вертикально */
+              gap: 10px;
+          }
+
+          .project-card {
+              width: 95%; /* Немного сужаем карточки для аккуратного вида */
+              padding: 15px; /* ✅ Уменьшаем отступы */
+          }
+
+          .project-card h2 {
+              font-size: 1.5rem; /* Уменьшаем заголовок */
+          }
+
+          .project-card p {
+              font-size: 1rem; /* Уменьшаем описание */
+          }
+      }
+
+      /* 📌 Адаптация для маленьких экранов (480px) */
+      @media (max-width: 480px) {
+          .projects-grid {
+              grid-template-columns: 1fr; /* Оставляем один столбец */
+              gap: 8px;
+          }
+
+          .project-card {
+              width: 100%; /* Растягиваем на всю ширину экрана */
+              padding: 12px;
+          }
+
+          .project-card h2 {
+              font-size: 1.3rem; /* Еще меньше размер заголовка */
+          }
+
+          .project-card p {
+              font-size: 0.9rem; /* Уменьшаем текст */
+          }
+      }
+
+      /* 📌 Адаптация меню на мобильных */
+      @media (max-width: 1024px) {
+          .header {
+              flex-direction: column; /* ✅ Меню теперь идет ниже логотипа */
+              align-items: center;
+              padding: 15px;
+          }
+
+          .logo-container {
+              margin-bottom: 10px; /* ✅ Добавляем отступ между логотипом и меню */
+          }
+
+          .nav {
+              display: flex;
+              flex-direction: column; /* ✅ Навигация в колонку */
+              align-items: center;
+              gap: 12px; /* Расстояние между ссылками */
+              position: relative;
+              left: 0; /* Убираем смещение */
+              margin-top: 10px;
+          }
+      }
+
+      /* 📌 Дополнительно для экранов 768px и меньше */
+      @media (max-width: 768px) {
+          .header {
+              padding: 10px;
+          }
+
+          .logo-container img {
+              width: 60px; /* ✅ Уменьшаем логотип на мобильных */
+              height: 60px;
+          }
+
+          .nav {
+              gap: 10px; /* Немного уменьшаем отступы */
+          }
+
+          .nav a {
+              font-size: 1rem; /* ✅ Уменьшаем размер ссылок */
+          }
+      }
+
+      /* 📌 Для мобильных устройств */
+      @media (max-width: 1024px) {
+          /* ✅ Шапка теперь адаптируется */
+          .header {
+              flex-direction: column;
+              align-items: center;
+              padding: 15px;
+          }
+
+
+          /* ✅ Отступ для логотипа */
+          .logo-container {
+              margin-bottom: 10px;
+          }
+
+          /* ✅ Переключатель языка ниже и с отступом */
+          .language-selector {
+              position: relative;
+              margin-top: 15px; /* ⬇ Отодвигаем вниз */
+              right: auto;
+              top: auto;
+          }
+
+          /* ✅ Навигация */
+          .nav {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 12px;
+              margin-top: 15px; /* ⬇ Отодвигаем меню вниз */
+          }
+          .footer{
+              margin: 10px 0px 10px 0px;
+              width: 100%;
+          }
+
+          /* ✅ Заголовок "Наши проекты" */
+          #page-title {
+              margin-top: 40px; /* ⬇ Отодвигаем заголовок вниз */
+              font-size: 2rem;
+          }
+
+          /* ✅ Контейнер с проектами - теперь ниже */
+          .container {
+              margin-top: 100px; /* ⬇ Дополнительный отступ */
+          }
+      }
+
+      /* 📌 Для мобильных (768px) */
+      @media (max-width: 768px) {
+          .language-selector {
+              margin-top: 20px; /* ⬇ Еще больше отодвигаем вниз */
+          }
+
+
+          #page-title {
+              margin-top: 50px; /* ⬇ Больше отступа для заголовка */
+          }
+
+          .container {
+              margin-top: 40px; /* ⬇ Контент уходит ниже */
+          }
+      }
+
+      /* 📌 Для маленьких экранов (480px) */
+      @media (max-width: 480px) {
+          .language-selector {
+              margin-top: 25px; /* ⬇ Максимальный отступ */
+          }
+
+          #page-title {
+              margin-top: 5px; /* ⬇ Еще больше пространства */
+          }
+
+          .container {
+              margin-top: 50px; /* ⬇ Контейнер ниже */
+          }
+      }
+
+      /* 📌 Основной отступ для заголовка и контейнера */
+      #page-title {
+          padding-top: 5px; /* Вместо margin используем padding */
+          text-align: center;
+      }
+
+      .container {
+          padding-top: 50px; /* Опускаем контейнер еще ниже */
+      }
+
+      @media (max-width: 1024px) {
+          #page-title {
+              padding-top: 60px; /* Поднимаем заголовок */
+          }
+          .container {
+              padding-top: 80px; /* Поднимаем проекты */
+          }
+      }
+
+      @media (max-width: 768px) {
+          #page-title {
+              padding-top: 70px;
+          }
+          .container {
+              padding-top: 90px;
+          }
+      }
+
+      @media (max-width: 480px) {
+          #page-title {
+              padding-top: 5px;
+          }
+          .container {
+              padding-top: 100px;
+          }
+      }
+
+
+
+      /* 📌 Подвал */
+      .footer {
+          text-align: center;
+          padding: 20px;
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.7);
+          background: rgba(0, 0, 0, 0.85);
+          box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+          margin-top: 30px;
+      }
+      .modal-img {
+      width: 80%; /* Уменьшает размер до 80% от ширины модального окна */
+      max-width: 400px; /* Максимальная ширина изображения */
+      display: block;
+      margin: 0 auto 15px; /* Выравнивание по центру и отступ вниз */
+      border-radius: 10px; /* Округление углов */
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.6); /* Добавление тени */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-animation"></div>
+
+    <header class="header">
+      <div class="container-header">
+        <div class="logo">
+          <a href="index.html" class="logo-container">
+            <img src="pic/logo.png" alt="AgriHub.KZ Логотип" />
+            <div class="logo-text">FarmMedEx</div>
+          </a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+          <!-- Кнопка с тремя полосками -->
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div id="nav-menu">
+        <div class="nav-links">
+          <select class="language-selector" id="language-switcher">
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="kk">Қазақша</option>
+            <option value="ar">العربية</option>
+          </select>
+
+          <nav class="nav">
+            <a id="home-link" href="index.html">Главная</a>
+            <a id="about-link" href="about.html">О компании</a>
+            <a id="contact-link" href="contact.html">Контакты</a>
+          </nav>
+        </div>
+      </div>
+      <!-- 📌 Переключатель языка -->
+    </header>
+
+    <div class="container">
+      <h1 id="page-title">Наши проекты</h1>
+      <div class="projects-grid">
+        <div
+          class="project-card"
+          id="project1"
+          onclick="showDetails('project1')"
+        >
+          <h2 id="project1-title">Eye Phone</h2>
+          <p id="project1-desc">Гаджет будущего с ИИ и VR-технологиями 🕶️🚀</p>
+        </div>
+
+        <div
+          class="project-card"
+          id="project2"
+          onclick="showDetails('project2')"
+        >
+          <h2 id="project2-title">Eye Phone</h2>
+          <p id="project2-desc">Гаджет будущего с ИИ и VR-технологиями 🕶️🚀</p>
+        </div>
+
+        <div
+          class="project-card"
+          id="project3"
+          onclick="showDetails('project3')"
+        >
+          <h2 id="project3-title">NeuroNet</h2>
+          <p id="project3-desc">Искусственный интеллект для бизнеса 🤖📊</p>
+        </div>
+
+        <div
+          class="project-card"
+          id="project4"
+          onclick="showDetails('project4')"
+        >
+          <h2 id="project4-title">AutoDoc AI</h2>
+          <p id="project4-desc">Цифровой помощник для врачей ⚕️💡</p>
+        </div>
+
+        <div
+          class="project-card"
+          id="project5"
+          onclick="showDetails('project5')"
+        >
+          <h2 id="project5-title">VR Space</h2>
+          <p id="project5-desc">Погружение в виртуальную реальность 🚀🕶️</p>
+        </div>
+
+        <div
+          class="project-card"
+          id="project6"
+          onclick="showDetails('project6')"
+        >
+          <h2 id="project6-title">EcoFarm</h2>
+          <p id="project6-desc">Умное сельское хозяйство 🌱🌍</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal">
+      <button class="close-btn" onclick="hideDetails()">✖</button>
+      <div class="modal-content">
+        <img id="modal-image" src="" alt="Проект" class="modal-img" />
+        <h2 id="modal-title"></h2>
+        <p id="modal-description"></p>
+      </div>
+    </div>
+    <div class="container-footer">
+      <footer class="footer">
+        <p id="footer-text">
+          📍 Наш адрес: г. Алматы | © 2025 ФармМедЭкс. Все права защищены.
+        </p>
+      </footer>
+    </div>
+
+    <script>
+
+                // Добавь в твой JS при открытии/закрытии модального окна:
+                // document.body.classList.add('no-scroll');   // при открытии модалки
+                // document.body.classList.remove('no-scroll'); // при закрытии
+                // function openModal() {
+                // document.querySelector('.modal').style.display = 'block';
+                // document.body.classList.add('no-scroll');
+                // }
+
+                // // Пример закрытия
+                // function closeModal() {
+                // document.querySelector('.modal').style.display = 'none';
+                // document.body.classList.remove('no-scroll');
+                // }
+      ///////////////////////////////////////////////////////////////
+              const translations = {
+              ru: {
+              title: "Наши проекты",
+              home: "Главная",
+              about: "О компании",
+              contact: "Контакты",
+              footer: "📍 Наш адрес: г. Алматы | © 2025 ФармМедЭкс. Все права защищены.",
+              projects: {
+                  project1: {
+                      name: "AgriFarm.KZ",
+                      shortDesc: "Цифровая революция в агробизнесе 🚜🌱",
+                      longDesc: "AgriFarm.KZ – это SaaS-платформа, созданная для автоматизации и цифровизации агропромышленного комплекса, объединяющая современные технологии для повышения эффективности сельского хозяйства.\n\n" +
+                              "🔹 AI-аналитика и прогнозирование – анализ данных о полях, урожайности и ресурсах для принятия оптимальных решений.\n" +
+                              "🔹 IoT-мониторинг – датчики влажности, температуры и дроны для контроля состояния посевов и оборудования.\n" +
+                              "🔹 Цифровой маркетплейс – удобная платформа для прямых сделок между фермерами, переработчиками и покупателями.\n" +
+                              "🔹 Блокчейн для субсидий и контрактов – прозрачность финансовых потоков и защита данных.\n" +
+                              "🔹 Автоматизация процессов – интеграция с финансовыми и логистическими сервисами для удобного управления бизнесом.\n\n" +
+                              "✅ Снижение потерь ресурсов и повышение урожайности.\n" +
+                              "✅ Прозрачность бизнес-процессов и субсидий.\n" +
+                              "✅ Доступ к передовым технологиям без сложных внедрений.\n\n" +
+                              "🚀 AgriFarm.KZ – цифровое будущее агропромышленности Казахстана!",
+                      image: "pic/agrihub.webp"
+                  },
+                  project2: {
+                      name: "Eye Phone",
+                      shortDesc: "Гаджет будущего с ИИ и VR-технологиями 🕶️🚀",
+                      longDesc: "Eye Phone – это инновационный гаджет, который заменяет классический смартфон, объединяя возможности искусственного интеллекта (ИИ) и виртуальной реальности (VR).\n\n" +
+                              "🔹 Виртуальный дисплей – изображение транслируется на линзы очков, создавая удобный интерфейс без физического экрана.\n" +
+                              "🔹 Управление жестами и голосом – полный контроль без рук: навигация, звонки, сообщения и приложения активируются движениями и голосовыми командами.\n" +
+                              "🔹 Интеграция с ИИ-ассистентом – персонализированный помощник анализирует повседневные задачи, предлагает оптимальные решения и взаимодействует с пользователем.\n" +
+                              "🔹 Дополненная реальность (AR) – отображение уведомлений, маршрутов, информации о людях и объектах в реальном времени.\n" +
+                              "🔹 Полная функциональность смартфона – звонки, мессенджеры, интернет, социальные сети, оплата покупок и работа с документами.\n\n" +
+                              "✅ Свобода рук – больше нет необходимости держать телефон.\n" +
+                              "✅ Эффективность – моментальный доступ к информации без отвлечений.\n" +
+                              "✅ Будущее уже здесь – технологии AR, VR и AI в одном устройстве.\n\n" +
+                              "🔥 Eye Phone – твой мир без границ!",
+                      image: "pic/eye-phone.webp"
+                  },
+                  project3: {
+                      name: "AI-Маркетплейс",
+                      shortDesc: "Торговля на основе ИИ 🛒🤖",
+                      longDesc: "AI-Маркетплейс – это революционная торговая платформа, где искусственный интеллект анализирует предпочтения покупателей и автоматически подбирает товары, персонализируя процесс покупок.\n\n" +
+                              "🔹 Персонализированные рекомендации – AI анализирует поведение клиентов и предлагает товары с высокой вероятностью покупки.\n" +
+                              "🔹 Интерактивный чат-бот – консультант с ИИ помогает пользователям выбрать лучший продукт.\n" +
+                              "🔹 Автоматическое ценообразование – динамическое изменение цен в зависимости от спроса и конкуренции.\n" +
+                              "🔹 Глубокая интеграция с поставщиками – AI автоматически связывает продавцов и покупателей по оптимальным условиям.\n" +
+                              "🔹 Умные алгоритмы логистики – сокращение сроков доставки за счет оптимизации маршрутов.\n\n" +
+                              "✅ Искусственный интеллект вместо стандартных фильтров.\n" +
+                              "✅ Уникальные механизмы продаж и персонализации.\n" +
+                              "✅ Повышение конверсии и снижение рекламных затрат.\n\n" +
+                              "🚀 AI-Маркетплейс – новое поколение онлайн-торговли!",
+                      image: "pic/ai-marketplace.webp"
+                  },
+                  project4: {
+                      name: "Нейроассистенты",
+                      shortDesc: "AI-помощники для бизнеса 🤖💼",
+                      longDesc: "Мы создаем современную платформу интеллектуальных ассистентов, способных помогать в бизнесе, управлении продажами и личных задачах.\n\n" +
+                              "✅ Бизнес-ассистент – виртуальный помощник руководителя, анализирующий отчёты, управляя бизнес-процессами, соцсетями, CRM и платежами.\n" +
+                              "✅ Менеджер по продажам – автоматизированное решение для компаний, управляющее клиентами, обработкой заказов и коммерческими предложениями.\n" +
+                              "✅ Персональные ассистенты – индивидуальные помощники (друг, психолог, виртуальный партнёр), адаптирующиеся к пользователю.\n\n" +
+                              "🚀 Инвестируйте в будущее автоматизации с Нейроассистентами!",
+                      image: "pic/neuro-assistants.webp"
+                  },
+                  project5: {
+                      name: "Диагностическое оборудование на базе ИИ",
+                      shortDesc: "Инновационная диагностика заболеваний ⚕️🔬",
+                      longDesc: "Комплексное диагностическое оборудование, использующее AI и Big Data для раннего выявления заболеваний.\n\n" +
+                              "🔹 AI-анализ изображений (рентген, МРТ, КТ) с высокой точностью.\n" +
+                              "🔹 Раннее обнаружение патологий на основе больших данных.\n" +
+                              "🔹 Персонализированные рекомендации для врачей и пациентов.\n\n" +
+                              "✅ Умная медицина – более точные диагнозы.\n" +
+                              "✅ Автоматизация рутинных задач врачей.\n" +
+                              "✅ Улучшение здравоохранения с AI.",
+                      image: "pic/ai-diagnostics.webp"
+                  },
+                  project6: {
+                      name: "Защита инфраструктуры и ИИ",
+                      shortDesc: "Кибербезопасность будущего 🔐🛡️",
+                      longDesc: "Система защиты данных и критической инфраструктуры от влияния киберугроз и иногентов.\n\n" +
+                              "🔹 AI-анализатор угроз – предсказание и предотвращение атак.\n" +
+                              "🔹 Защита государственных и корпоративных систем.\n" +
+                              "🔹 Шифрование данных и контроль доступа.\n\n" +
+                              "✅ Безопасность AI-разработок и инфраструктуры.\n" +
+                              "✅ Инновационные механизмы обнаружения угроз.\n" +
+                              "✅ Гарантия конфиденциальности информации.",
+                      image: "pic/ai-security.webp"
+                  }
+              }
+          },
+
+              en: {
+              title: "Our Projects",
+              home: "Home",
+              about: "About Us",
+              contact: "Contacts",
+              footer: "📍 Our address: Almaty | © 2025 FarmMedEx. All rights reserved.",
+              projects: {
+                  project1: {
+                      name: "AgriFarm.KZ",
+                      shortDesc: "Digital revolution in agribusiness 🚜🌱",
+                      longDesc: "AgriFarm.KZ is a SaaS platform designed to automate and digitize the agricultural sector, integrating modern technologies to enhance farming efficiency.\n\n" +
+                              "🔹 AI analytics and forecasting – analyzes field data, crop yields, and resources to optimize decision-making.\n" +
+                              "🔹 IoT monitoring – sensors for humidity, temperature, and drones to control crop and equipment conditions.\n" +
+                              "🔹 Digital marketplace – a convenient platform for direct transactions between farmers, processors, and buyers.\n" +
+                              "🔹 Blockchain for subsidies and contracts – ensures financial transparency and data protection.\n" +
+                              "🔹 Process automation – integration with financial and logistics services for seamless business management.\n\n" +
+                              "✅ Reduces resource loss and increases yields.\n" +
+                              "✅ Transparency in business processes and subsidies.\n" +
+                              "✅ Access to cutting-edge technologies without complex implementations.\n\n" +
+                              "🚀 AgriFarm.KZ – the digital future of Kazakhstan's agribusiness!",
+                      image: "pic/agrihub.webp"
+                  },
+                  project2: {
+                      name: "Eye Phone",
+                      shortDesc: "Future gadget with AI and VR technology 🕶️🚀",
+                      longDesc: "Eye Phone is an innovative gadget that replaces traditional smartphones by integrating artificial intelligence (AI) and virtual reality (VR).\n\n" +
+                              "🔹 Virtual display – projects images onto smart glasses, creating a seamless interface without a physical screen.\n" +
+                              "🔹 Gesture and voice control – full hands-free operation: navigation, calls, messages, and apps are controlled through movements and voice commands.\n" +
+                              "🔹 AI-powered assistant – a personalized assistant that analyzes daily tasks, suggests optimal solutions, and interacts with users.\n" +
+                              "🔹 Augmented reality (AR) – real-time display of notifications, navigation, and object recognition.\n" +
+                              "🔹 Full smartphone functionality – calls, messaging, internet browsing, social media, payment services, and document processing.\n\n" +
+                              "✅ Hands-free experience – no need to hold a phone anymore.\n" +
+                              "✅ Efficiency – instant access to information without distractions.\n" +
+                              "✅ The future is here – AR, VR, and AI in one device.\n\n" +
+                              "🔥 Eye Phone – your world without limits!",
+                      image: "pic/eye-phone.webp"
+                  },
+                  project3: {
+                      name: "AI Marketplace",
+                      shortDesc: "AI-powered shopping revolution 🛒🤖",
+                      longDesc: "AI Marketplace is a revolutionary shopping platform where artificial intelligence analyzes customer preferences and automatically selects products, personalizing the shopping experience.\n\n" +
+                              "🔹 Personalized recommendations – AI analyzes customer behavior and suggests products with high purchase probability.\n" +
+                              "🔹 Interactive chatbot – an AI consultant assists users in choosing the best products.\n" +
+                              "🔹 Automated pricing – dynamic price adjustments based on demand and competition.\n" +
+                              "🔹 Deep integration with suppliers – AI automatically connects buyers and sellers with optimal conditions.\n" +
+                              "🔹 Smart logistics algorithms – optimized delivery routes to reduce shipping times.\n\n" +
+                              "✅ AI-driven product filtering instead of standard search methods.\n" +
+                              "✅ Unique sales mechanisms and personalization.\n" +
+                              "✅ Increased conversion rates and lower advertising costs.\n\n" +
+                              "🚀 AI Marketplace – the next generation of online commerce!",
+                      image: "pic/ai-marketplace.webp"
+                  },
+                  project4: {
+                      name: "Neuro Assistants",
+                      shortDesc: "AI-powered business and personal assistants 🤖💼",
+                      longDesc: "We are developing a cutting-edge platform of intelligent assistants capable of helping businesses, managing sales, and handling personal tasks.\n\n" +
+                              "✅ Business assistant – a virtual executive assistant that analyzes reports, manages business processes, social media, CRM, and payments.\n" +
+                              "✅ Sales manager – an automated solution for managing customers, processing orders, and generating business proposals.\n" +
+                              "✅ Personal assistants – AI-driven companions (friend, psychologist, virtual partner) that adapt to users' needs.\n\n" +
+                              "🚀 Invest in the future of automation with Neuro Assistants!",
+                      image: "pic/neuro-assistants.webp"
+                  },
+                  project5: {
+                      name: "AI Diagnostic Equipment",
+                      shortDesc: "Revolutionary AI-based medical diagnostics ⚕️🔬",
+                      longDesc: "A comprehensive diagnostic system using AI and Big Data for early disease detection.\n\n" +
+                              "🔹 AI image analysis (X-ray, MRI, CT scans) with high accuracy.\n" +
+                              "🔹 Early detection of pathologies based on extensive datasets.\n" +
+                              "🔹 Personalized recommendations for doctors and patients.\n\n" +
+                              "✅ Smart medicine – more accurate diagnoses.\n" +
+                              "✅ Automation of routine medical tasks.\n" +
+                              "✅ Improved healthcare with AI.",
+                      image: "pic/ai-diagnostics.webp"
+                  },
+                  project6: {
+                      name: "AI and Infrastructure Security",
+                      shortDesc: "Next-gen cybersecurity 🔐🛡️",
+                      longDesc: "A data and infrastructure protection system against cyber threats and foreign interference.\n\n" +
+                              "🔹 AI threat analyzer – predicts and prevents cyberattacks.\n" +
+                              "🔹 Protection for government and corporate systems.\n" +
+                              "🔹 Data encryption and access control.\n\n" +
+                              "✅ Security for AI developments and critical infrastructure.\n" +
+                              "✅ Advanced threat detection mechanisms.\n" +
+                              "✅ Guaranteed confidentiality of information.",
+                      image: "pic/ai-security.webp"
+                  }
+              }
+          },
+              de: {
+              title: "Unsere Projekte",
+              home: "Startseite",
+              about: "Über uns",
+              contact: "Kontakte",
+              footer: "📍 Unsere Adresse: Almaty | © 2025 FarmMedEx. Alle Rechte vorbehalten.",
+              projects: {
+                  project1: {
+                      name: "AgriFarm.KZ",
+                      shortDesc: "Digitale Revolution in der Agrarindustrie 🚜🌱",
+                      longDesc: "AgriHub.KZ ist eine SaaS-Plattform zur Automatisierung und Digitalisierung des Agrarsektors, die moderne Technologien integriert, um die Effizienz der Landwirtschaft zu steigern.\n\n" +
+                              "🔹 KI-Analysen und Prognosen – Analyse von Felddaten, Erträgen und Ressourcen für optimierte Entscheidungen.\n" +
+                              "🔹 IoT-Überwachung – Sensoren für Feuchtigkeit, Temperatur und Drohnen zur Kontrolle von Pflanzen und Geräten.\n" +
+                              "🔹 Digitaler Marktplatz – eine Plattform für direkte Geschäfte zwischen Landwirten, Verarbeitern und Käufern.\n" +
+                              "🔹 Blockchain für Subventionen und Verträge – transparente Finanzströme und Datenschutz.\n" +
+                              "🔹 Automatisierung von Prozessen – Integration mit Finanz- und Logistikdiensten für effizientes Geschäftsmanagement.\n\n" +
+                              "✅ Reduzierung von Ressourcenverlusten und Steigerung der Erträge.\n" +
+                              "✅ Transparenz in Geschäftsprozessen und Subventionen.\n" +
+                              "✅ Zugang zu modernster Technologie ohne komplizierte Implementierungen.\n\n" +
+                              "🚀 AgriFarm.KZ – die digitale Zukunft der Agrarwirtschaft Kasachstans!",
+                      image: "pic/agrihub.webp"
+                  },
+                  project2: {
+                      name: "Eye Phone",
+                      shortDesc: "Zukunftsgerät mit KI- und VR-Technologie 🕶️🚀",
+                      longDesc: "Eye Phone ist ein innovatives Gerät, das herkömmliche Smartphones durch die Integration von Künstlicher Intelligenz (KI) und Virtueller Realität (VR) ersetzt.\n\n" +
+                              "🔹 Virtuelles Display – Bildübertragung auf die Linsen der Smart Glasses für eine nahtlose Benutzeroberfläche.\n" +
+                              "🔹 Gesten- und Sprachsteuerung – vollständige Bedienung ohne Hände: Navigation, Anrufe, Nachrichten und Apps mit Bewegungen und Sprachbefehlen.\n" +
+                              "🔹 KI-Assistent – ein personalisierter Helfer, der tägliche Aufgaben analysiert, Lösungen vorschlägt und mit dem Nutzer interagiert.\n" +
+                              "🔹 Augmented Reality (AR) – Echtzeit-Überlagerung von Benachrichtigungen, Navigation und Objekterkennung.\n" +
+                              "🔹 Volle Smartphone-Funktionalität – Anrufe, Messaging, Internet, soziale Netzwerke, Zahlungssysteme und Dokumentenbearbeitung.\n\n" +
+                              "✅ Freie Hände – kein Smartphone mehr nötig.\n" +
+                              "✅ Effizienz – sofortiger Zugriff auf Informationen ohne Ablenkung.\n" +
+                              "✅ Die Zukunft ist da – AR, VR und KI in einem Gerät.\n\n" +
+                              "🔥 Eye Phone – deine Welt ohne Grenzen!",
+                      image: "pic/eye-phone.webp"
+                  },
+                  project3: {
+                      name: "KI-Marktplatz",
+                      shortDesc: "KI-gestützte Shopping-Revolution 🛒🤖",
+                      longDesc: "Der KI-Marktplatz ist eine revolutionäre Handelsplattform, auf der künstliche Intelligenz Kundenpräferenzen analysiert und automatisch Produkte auswählt, um den Einkaufsprozess zu personalisieren.\n\n" +
+                              "🔹 Personalisierte Empfehlungen – KI analysiert das Kundenverhalten und schlägt Produkte mit hoher Kaufwahrscheinlichkeit vor.\n" +
+                              "🔹 Interaktiver Chatbot – ein KI-Berater hilft Nutzern bei der Produktauswahl.\n" +
+                              "🔹 Automatische Preisgestaltung – dynamische Preisanpassungen basierend auf Nachfrage und Wettbewerb.\n" +
+                              "🔹 Tiefe Integration mit Lieferanten – KI verknüpft Käufer und Verkäufer automatisch unter optimalen Bedingungen.\n" +
+                              "🔹 Intelligente Logistikalgorithmen – optimierte Lieferwege zur Reduzierung von Versandzeiten.\n\n" +
+                              "✅ KI-gestützte Produktsuche statt herkömmlicher Filter.\n" +
+                              "✅ Einzigartige Verkaufsmechanismen und Personalisierung.\n" +
+                              "✅ Höhere Konversionsraten und geringere Werbekosten.\n\n" +
+                              "🚀 KI-Marktplatz – die nächste Generation des Online-Handels!",
+                      image: "pic/ai-marketplace.webp"
+                  },
+                  project4: {
+                      name: "Neuro-Assistenten",
+                      shortDesc: "KI-gestützte Business- und persönliche Assistenten 🤖💼",
+                      longDesc: "Wir entwickeln eine hochmoderne Plattform für intelligente Assistenten, die Unternehmen unterstützen, Verkaufsprozesse verwalten und persönliche Aufgaben übernehmen können.\n\n" +
+                              "✅ Business-Assistent – ein virtueller Manager, der Berichte analysiert, Geschäftsprozesse, soziale Medien, CRM und Zahlungen verwaltet.\n" +
+                              "✅ Verkaufsmanager – eine automatisierte Lösung für die Kundenverwaltung, Auftragsbearbeitung und Geschäftsanalyse.\n" +
+                              "✅ Persönliche Assistenten – KI-gestützte Begleiter (Freund, Psychologe, virtueller Partner), die sich an die Bedürfnisse der Nutzer anpassen.\n\n" +
+                              "🚀 Investieren Sie in die Zukunft der Automatisierung mit Neuro-Assistenten!",
+                      image: "pic/neuro-assistants.webp"
+                  },
+                  project5: {
+                      name: "KI-Diagnosesysteme",
+                      shortDesc: "Revolutionäre KI-gestützte medizinische Diagnostik ⚕️🔬",
+                      longDesc: "Ein umfassendes Diagnosesystem mit KI und Big Data zur frühzeitigen Erkennung von Krankheiten.\n\n" +
+                              "🔹 KI-Bildanalyse (Röntgen, MRT, CT-Scans) mit hoher Genauigkeit.\n" +
+                              "🔹 Frühzeitige Erkennung von Pathologien auf Basis umfangreicher Datensätze.\n" +
+                              "🔹 Personalisierte Empfehlungen für Ärzte und Patienten.\n\n" +
+                              "✅ Intelligente Medizin – genauere Diagnosen.\n" +
+                              "✅ Automatisierung routinemäßiger medizinischer Aufgaben.\n" +
+                              "✅ Verbesserte Gesundheitsversorgung durch KI.",
+                      image: "pic/ai-diagnostics.webp"
+                  },
+                  project6: {
+                      name: "KI- und Infrastrukturschutz",
+                      shortDesc: "Nächste Generation der Cybersicherheit 🔐🛡️",
+                      longDesc: "Ein Schutzsystem für Daten und Infrastrukturen gegen Cyberbedrohungen und ausländische Eingriffe.\n\n" +
+                              "🔹 KI-gestützter Bedrohungsanalysator – erkennt und verhindert Cyberangriffe.\n" +
+                              "🔹 Schutz für Regierungs- und Unternehmenssysteme.\n" +
+                              "🔹 Datenverschlüsselung und Zugriffskontrolle.\n\n" +
+                              "✅ Sicherheit für KI-Entwicklungen und kritische Infrastrukturen.\n" +
+                              "✅ Fortschrittliche Bedrohungserkennungsmechanismen.\n" +
+                              "✅ Garantierte Vertraulichkeit von Informationen.",
+                      image: "pic/ai-security.webp"
+                  }
+              }
+          },
+              kk: {
+              title: "Біздің жобаларымыз",
+              home: "Басты бет",
+              about: "Компания туралы",
+              contact: "Байланыс",
+              footer: "📍 Біздің мекен-жайымыз: Алматы | © 2025 ФармМедЭкс. Барлық құқықтар қорғалған.",
+              projects: {
+                  project1: {
+                      name: "AgriFarm.KZ",
+                      shortDesc: "Агробизнестегі цифрлық төңкеріс  🚜🌱",
+                      longDesc: "AgriFarm.KZ – агроөнеркәсіп кешенін автоматтандыру және цифрландыруға арналған SaaS (Software as a Service - Қызмет ретіндегі бағдарламалық жасақтама) алаңқайы, ол ауыл шаруашылығының тиімділігін арттыру үшін заманауи технологияларды біріктіреді.\n\n" +
+                              "🔹 Жасанды зият негізіндегі талдау және болжау – егістік жерлер, өнімділік және қорлар туралы деректерді талдау арқылы оңтайлы шешімдер қабылдау.\n" +
+                              "🔹 IoT (Internet of Things-Заттардың Ғаламторы)-мониторинг – өсімдіктер мен жабдықтардың жағдайын бақылау үшін ылғалдылық, температура сенсорлары және дрондар.\n" +
+                              "🔹 Цифрлық маркетплейс – фермерлер, қайта өңдеушілер және сатып алушылар арасында тікелей мәмілелер жасауға арналған ыңғайлы платформа» заменить на «Цифрлық нарық – фермерлер, қайта өңдеушілер және сатып алушылар арасында тікелей мәмілелер жасауға арналған ыңғайлы алаңқай.\n" +
+                              "🔹 Блокчейн арқылы көмекқаржылар мен келісім-шарттардың ашықтығы және деректерді қорғау.\n" +
+                              "🔹 Үдерістерді автоматтандыру – қаржылық және логистикалық қызметтермен кіріктіру арқылы бизнесті ыңғайлы басқару.\n\n" +
+                              "✅ Қорларды  жоғалтуды азайту және өнімділікті арттыру.\n" +
+                              "✅ Бизнестегі үдерістердің және көмекқаржылардың ашықтығы.\n" +
+                              "✅ Озық технологияларға күрделі енгізусіз қол жеткізу.\n\n" +
+                              "🚀 AgriFarm.KZ – Қазақстанның агроөнеркәсіптік кешенінің цифрлық болашағы!",
+                      image: "pic/agrihub.webp"
+                  },
+                  project2: {
+                      name: "Eye Phone",
+                      shortDesc: "Жасанды Зият (ЖЗ) пен Виртуалды Шындық (VR) технологиясы бар болашақ құрылғы 🕶️🚀",
+                      longDesc: "Eye Phone – бұл дәстүрлі смартфонның орнына жасанды зият (AI-ЖЗ) пен виртуалды шындықты (VR) біріктіретін жаңартпашылық құрылғы.\n\n" +
+                              "🔹 Виртуалды дисплей – сурет смарт көзілдірік линзаларына беріледі, осылайша пайдаланушы интерфейсі көз алдында пайда болады.\n" +
+                              "🔹 Қимыл және дауыспен басқару – толық қолсыз басқару: жүргізу, қоңыраулар, хабарламалар және қосымшалар қимылдар мен дауыс пәрмендері арқылы іске қосылады.\n" +
+                              "🔹 ЖЗ көмекшісі – жеке көмекші күнделікті тапсырмаларды талдап, оңтайлы шешімдерді ұсынады және пайдаланушымен өзара әрекеттеседі.\n" +
+                              "🔹 Толықтырылған шындық (AR) – хабарландырулар, маршруттар, адамдар мен нысандар туралы ақпаратты нақты уақыт режимінде көрсету.\n" +
+                              "🔹 Смартфонның барлық мүмкіндіктері – қоңыраулар, жөнелтушілер,  ғаламтор, әлеуметтік желілер, төлем жүйелері және құжаттармен жұмыс істеу.\n\n" +
+                              "✅ Қол бос – смартфон ұстаудың қажеті жоқ.\n" +
+                              "✅ Жоғары тиімділік – ақпаратқа лезде қол жеткізу.\n" +
+                              "✅ Болашақ келді – Толықтырылған Шындық (AR), Виртуалды Шындық (VR) және Жасанды Зият (AI) бір құрылғыда.\n\n" +
+                              "🔥 Eye Phone – шекарасыз әлем!",
+                      image: "pic/eye-phone.webp"
+                  },
+                  project3: {
+                      name: "ЖЗ Нарығы",
+                      shortDesc: "Жасанды зият арқылы сатып алудың жаңа деңгейі. 🛒🤖",
+                      longDesc: "ЖЗ Нарығы – бұл жасанды зият сатып алушылардың қалауын талдап, тауарларды автоматты түрде таңдайтын төңкерістік сауда алаңқайы.\n\n" +
+                              "🔹 Жеке ұсыныстар – ЖЗ тұтынушылардың мінез-құлқын талдайды және сатып алу ықтималдығы жоғары өнімдерді ұсынады.\n" +
+                              "🔹 Өзара белсенді чат-бот – ЖЗ кеңесшісі пайдаланушыларға ең жақсы өнімді таңдауға көмектеседі.\n" +
+                              "🔹 Автоматты баға белгілеу – сұраныс пен бәсекелестікке байланысты серпінді баға өзгерісі.\n" +
+                              "🔹 Жеткізушілермен терең бірігу – ЖЗ сатып алушылар мен сатушыларды ең жақсы шарттармен автоматты түрде байланыстырады.\n" +
+                              "🔹 Логистиканы оңтайландыру – жеткізу мерзімдерін қысқарту үшін бағыттарды автоматты түрде есептеу.\n\n" +
+                              "✅ Кәдімгі сүзгілердің орнына жасанды зият.\n" +
+                              "✅ Жеке ұсыныстар мен сатудың жаңа тетігі.\n" +
+                              "✅ Жарнамалық шығындарды азайту және сатылымды арттыру.\n\n" +
+                              "🚀 AI-Маркетплейс – онлайн-сауданың жаңа буыны!",
+                      image: "pic/ai-marketplace.webp"
+                  },
+                  project4: {
+                      name: "Жүйке көмекшілері",
+                      shortDesc: "Бизнесті автоматтандыруға арналған ЖЗ көмекшілері 🤖💼",
+                      longDesc: "Біз бизнес, сатуды басқару және жеке тапсырмаларды орындауға көмектесетін зиятты көмекшілер алаңқайын жасаймыз.\n\n" +
+                              "✅ Бизнес-көмекші – есептерді талдайтын, бизнес-үдерістерді, әлеуметтік желілерді, CRM (Client Relationship Management (CRM)-Клиенттермен Қарым-Қатынасты Басқару) мен төлемдерді басқаратын виртуалды көмекші.\n" +
+                              "✅ Сату менеджері – тапсырыстарды өңдеу мен клиенттермен жұмыс істеуге арналған автоматтандырылған шешім.\n" +
+                              "✅ Жеке көмекшілер – пайдаланушының сұранысына сәйкес бейімделетін ЖЗ серіктері.\n\n" +
+                              "🚀 Жүйке көмекшілерімен автоматтандыру болашағына ақша салымын жасаңыз!",
+                      image: "pic/neuro-assistants.webp"
+                  },
+                  project5: {
+                      name: "ЖЗ диагностикалық жүйелері",
+                      shortDesc: "Жасанды зият арқылы ауруларды анықтау.⚕️🔬",
+                      longDesc: "Жасанды зият пен Big Data негізіндегі кешенді диагностикалық жүйе ауруларды ерте кезеңде анықтауға көмектеседі.\n\n" +
+                              "🔹 ЖЗ бейне талдауының (рентген, МРТ, КТ) жоғары дәлдігі бар\n" +
+                              "🔹 Дерекқорға негізделген ауруларды ерте анықтау.\n" +
+                              "🔹 Дәрігерлер мен емделушілерге жеке ұсыныстар беру.\n\n" +
+                              "✅ Дәл медициналық диагноздар.\n" +
+                              "✅ Күнделікті медициналық міндеттерді автоматтандыру.\n" +
+                              "✅ Денсаулық сақтау сапасын жақсарту.",
+                      image: "pic/ai-diagnostics.webp"
+                  },
+                  project6: {
+                      name: "AI және инфрақұрылым қауіпсіздігі",
+                      shortDesc: "Киберқауіпсіздіктің жаңа деңгейі 🔐🛡️",
+                      longDesc: "Деректерді қорғауға және инфрақұрылымды шетелдік кибершабуылдардан қорғауға арналған қауіпсіздік жүйесі.\n\n" +
+                              "🔹 Жасанды зият негізіндегі қауіптерді талдау – кибершабуылдарды анықтау және олардан алдын ала сақтандыру.\n" +
+                              "🔹 Мемлекеттік және бірлескен жүйелерді қорғау.\n" +
+                              "🔹 Деректерді мұқамдау және қолжетімділікті басқару.\n\n" +
+                              "✅ ЖЗ дамуын және инфрақұрылым қауіпсіздігін қамтамасыз ету.\n" +
+                              "✅ Жетілдірілген қауіптерді анықтау жүйесі.\n" +
+                              "✅ Ақпараттың толық құпиялылығына кепілдік.",
+                      image: "pic/ai-security.webp"
+                  }
+              }
+          },
+              ar: {
+              title: "مشاريعنا",
+              home: "الرئيسية",
+              about: "عن الشركة",
+              contact: "اتصال",
+              footer: "📍 عنواننا: ألماتي | © 2025 فارم ميد إكس. جميع الحقوق محفوظة.",
+              projects: {
+                  project1: {
+                      name: "AgriFarm.KZ",
+                      shortDesc: "الثورة الرقمية في الأعمال الزراعية 🚜🌱",
+                      longDesc: "AgriHub.KZ هو منصة SaaS مصممة لأتمتة ورقمنة القطاع الزراعي، حيث تجمع بين التقنيات الحديثة لزيادة كفاءة الزراعة.\n\n" +
+                              "🔹 التحليلات التنبؤية بالذكاء الاصطناعي – تحليل بيانات الحقول والمحاصيل والموارد لاتخاذ قرارات مثالية.\n" +
+                              "🔹 مراقبة إنترنت الأشياء – أجهزة استشعار الرطوبة ودرجة الحرارة والطائرات بدون طيار لمراقبة المحاصيل والمعدات.\n" +
+                              "🔹 سوق رقمي – منصة مريحة للمعاملات المباشرة بين المزارعين والمصنعين والمشترين.\n" +
+                              "🔹 تقنية البلوك تشين للتمويل والعقود – الشفافية المالية وحماية البيانات.\n" +
+                              "🔹 أتمتة العمليات – التكامل مع الخدمات المالية واللوجستية لإدارة الأعمال بسهولة.\n\n" +
+                              "✅ تقليل فقدان الموارد وزيادة الإنتاجية.\n" +
+                              "✅ شفافية العمليات التجارية والمنح.\n" +
+                              "✅ الوصول إلى التقنيات المتقدمة دون تعقيدات.\n\n" +
+                              "🚀 AgriFarm.KZ – مستقبل الصناعة الزراعية الرقمية في كازاخستان!",
+                      image: "pic/agrihub.webp"
+                  },
+                  project2: {
+                      name: "Eye Phone",
+                      shortDesc: "جهاز المستقبل بتقنية الذكاء الاصطناعي والواقع الافتراضي 🕶️🚀",
+                      longDesc: "Eye Phone هو جهاز مبتكر يستبدل الهاتف الذكي التقليدي، حيث يجمع بين الذكاء الاصطناعي (AI) وتقنية الواقع الافتراضي (VR).\n\n" +
+                              "🔹 شاشة افتراضية – يتم عرض الصورة على عدسات النظارات، مما يوفر واجهة مرئية دون شاشة مادية.\n" +
+                              "🔹 التحكم بالإيماءات والصوت – تحكم كامل بدون استخدام اليدين: التنقل، المكالمات، الرسائل، والتطبيقات يتم تفعيلها بالإيماءات والأوامر الصوتية.\n" +
+                              "🔹 مساعد ذكاء اصطناعي – مساعد شخصي يحلل المهام اليومية، ويقترح الحلول المثلى، ويتفاعل مع المستخدم.\n" +
+                              "🔹 الواقع المعزز (AR) – عرض الإشعارات، والخرائط، والمعلومات حول الأشخاص والأشياء في الوقت الفعلي.\n" +
+                              "🔹 جميع وظائف الهاتف الذكي – المكالمات، والرسائل، والإنترنت، ووسائل التواصل الاجتماعي، والمدفوعات، والعمل مع المستندات.\n\n" +
+                              "✅ حرية اليدين – لا حاجة لحمل الهاتف بعد الآن.\n" +
+                              "✅ الكفاءة – الوصول الفوري إلى المعلومات دون تشتيت.\n" +
+                              "✅ المستقبل هنا – دمج تقنيات AR و VR و AI في جهاز واحد.\n\n" +
+                              "🔥 Eye Phone – عالم بلا حدود!",
+                      image: "pic/eye-phone.webp"
+                  },
+                  project3: {
+                      name: "AI-ماركت بليس",
+                      shortDesc: "تجربة تسوق ثورية بفضل الذكاء الاصطناعي 🛒🤖",
+                      longDesc: "AI-ماركت بليس هو منصة تجارة إلكترونية ثورية حيث يحلل الذكاء الاصطناعي تفضيلات العملاء ويختار المنتجات تلقائيًا، مما يجعل التسوق أكثر تخصيصًا.\n\n" +
+                              "🔹 توصيات مخصصة – يقوم الذكاء الاصطناعي بتحليل سلوك العملاء ويقدم المنتجات ذات الاحتمالية العالية للشراء.\n" +
+                              "🔹 روبوت محادثة تفاعلي – مساعد ذكاء اصطناعي يساعد المستخدمين في اختيار أفضل المنتجات.\n" +
+                              "🔹 تسعير ديناميكي – تعديل الأسعار تلقائيًا وفقًا للطلب والمنافسة.\n" +
+                              "🔹 تكامل ذكي مع الموردين – يربط الذكاء الاصطناعي البائعين والمشترين بأفضل الشروط الممكنة.\n" +
+                              "🔹 خوارزميات لوجستية ذكية – تقليل أوقات التسليم عبر تحسين مسارات النقل.\n\n" +
+                              "✅ ذكاء اصطناعي بدلاً من الفلاتر التقليدية.\n" +
+                              "✅ تقنيات بيع متميزة وتخصيص متقدم.\n" +
+                              "✅ زيادة معدلات التحويل وخفض تكاليف التسويق.\n\n" +
+                              "🚀 AI-ماركت بليس – مستقبل التجارة الإلكترونية!",
+                      image: "pic/ai-marketplace.webp"
+                  },
+                  project4: {
+                      name: "المساعدون العصبيون",
+                      shortDesc: "مساعدو الذكاء الاصطناعي لأتمتة الأعمال 🤖💼",
+                      longDesc: "نحن نطور منصة حديثة لمساعدي الذكاء الاصطناعي، القادرين على مساعدة الشركات وإدارة المبيعات والمهام الشخصية.\n\n" +
+                              "✅ مساعد الأعمال – مساعد افتراضي يحلل التقارير ويدير العمليات التجارية ووسائل التواصل الاجتماعي و CRM والمدفوعات.\n" +
+                              "✅ مدير المبيعات – حل آلي للشركات يتولى التعامل مع العملاء ومعالجة الطلبات والعروض التجارية.\n" +
+                              "✅ المساعدون الشخصيون – مساعدين ذكاء اصطناعي يتكيفون مع احتياجات المستخدم.\n\n" +
+                              "🚀 استثمر في المستقبل مع المساعدين العصبيين!",
+                      image: "pic/neuro-assistants.webp"
+                  },
+                  project5: {
+                      name: "أنظمة التشخيص بالذكاء الاصطناعي",
+                      shortDesc: "الكشف المبكر عن الأمراض باستخدام الذكاء الاصطناعي ⚕️🔬",
+                      longDesc: "نظام تشخيصي متكامل يعتمد على الذكاء الاصطناعي وتحليل البيانات الضخمة، مما يساعد في اكتشاف الأمراض في مراحلها المبكرة.\n\n" +
+                              "🔹 تحليل صور الأشعة السينية، والتصوير بالرنين المغناطيسي، والتصوير المقطعي المحوسب بدقة عالية.\n" +
+                              "🔹 تشخيص مبكر للأمراض استنادًا إلى قواعد بيانات واسعة النطاق.\n" +
+                              "🔹 تقديم توصيات شخصية للأطباء والمرضى.\n\n" +
+                              "✅ تشخيص طبي دقيق.\n" +
+                              "✅ أتمتة المهام الطبية اليومية.\n" +
+                              "✅ تحسين جودة الرعاية الصحية.",
+                      image: "pic/ai-diagnostics.webp"
+                  },
+                  project6: {
+                      name: "حماية الذكاء الاصطناعي والبنية التحتية",
+                      shortDesc: "مستوى جديد من الأمن السيبراني 🔐🛡️",
+                      longDesc: "نظام أمني لحماية البيانات والبنية التحتية من الهجمات السيبرانية الأجنبية.\n\n" +
+                              "🔹 تحليل التهديدات باستخدام الذكاء الاصطناعي – اكتشاف ومنع الهجمات الإلكترونية.\n" +
+                              "🔹 حماية الأنظمة الحكومية والمؤسساتية.\n" +
+                              "🔹 تشفير البيانات وإدارة الوصول.\n\n" +
+                              "✅ ضمان تطوير الذكاء الاصطناعي وأمان البنية التحتية.\n" +
+                              "✅ نظام متقدم لاكتشاف التهديدات.\n" +
+                              "✅ سرية المعلومات مضمونة بالكامل.",
+                      image: "pic/ai-security.webp"
+                  }
+              }
+          }
+          };
+
+              // 📌 Глобальная переменная для текущего языка
+              let currentLang = localStorage.getItem("selectedLanguage") || "ru";
+
+              // 📌 Функция переключения языка
+              function changeLanguage(lang) {
+                  currentLang = lang;
+                  localStorage.setItem("selectedLanguage", lang); // Сохраняем выбор
+
+                  // Обновляем текст в шапке
+                  document.getElementById("home-link").innerText = translations[lang].home;
+                  document.getElementById("about-link").innerText = translations[lang].about;
+                  document.getElementById("contact-link").innerText = translations[lang].contact;
+
+                  // Обновляем текст заголовка страницы
+                  document.getElementById("page-title").innerText = translations[lang].title;
+
+                  // Обновляем текст карточек проектов
+                  for (let i = 1; i <= 6; i++) {
+                      let projectTitle = document.getElementById(`project${i}-title`);
+                      let projectDesc = document.getElementById(`project${i}-desc`);
+
+                      if (projectTitle && projectDesc) {
+                          projectTitle.innerText = translations[lang].projects[`project${i}`].name;
+                          projectDesc.innerText = translations[lang].projects[`project${i}`].shortDesc;
+                      }
+                  }
+
+                  // Обновляем текст в подвале
+                  document.getElementById("footer-text").innerText = translations[lang].footer;
+              }
+
+              // 📌 Функция загрузки сохраненного языка при загрузке страницы
+              function loadSavedLanguage() {
+                  if (localStorage.getItem("selectedLanguage")) {
+                      changeLanguage(localStorage.getItem("selectedLanguage"));
+                      document.getElementById("language-switcher").value = localStorage.getItem("selectedLanguage");
+                  }
+              }
+
+              // 📌 Функция для показа модального окна с информацией о проекте
+              function showDetails(projectKey) {
+                  const project = translations[currentLang].projects[projectKey];
+
+                  document.getElementById("modal-title").innerText = project.name;
+                  document.getElementById("modal-description").innerText = project.longDesc;
+                  document.getElementById("modal-image").src = project.image;
+
+                  document.getElementById("modal").style.display = "flex";
+              }
+
+              // 📌 Закрытие модального окна
+              function hideDetails() {
+                  document.getElementById("modal").style.display = "none";
+              }
+
+              // 📌 Обработчик смены языка
+              document.getElementById("language-switcher").addEventListener("change", function () {
+                  changeLanguage(this.value);
+              });
+
+              // 📌 При загрузке страницы загружаем сохраненный язык
+              document.addEventListener("DOMContentLoaded", loadSavedLanguage);
+
+                  // 📌 Гарантированное скрытие модального окна при загрузке страницы
+          document.addEventListener("DOMContentLoaded", function () {
+              document.getElementById("modal").style.display = "none";
+          });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const languageSwitcher = document.getElementById("language-switcher");
+
+          // Функция смены языка
+          function changeLanguage(lang) {
+              localStorage.setItem("selectedLanguage", lang); // Сохраняем выбор языка в localStorage
+
+              document.getElementById("page-title").innerText = translations[lang].title;
+              document.getElementById("home-link").innerText = translations[lang].home;
+              document.getElementById("projects-link").innerText = translations[lang].projects;
+              document.getElementById("contact-link").innerText = translations[lang].contact;
+              document.getElementById("about-title").innerText = translations[lang].aboutTitle;
+              document.getElementById("who-we-are").innerText = translations[lang].whoWeAre;
+              document.getElementById("who-we-are-text").innerHTML = translations[lang].whoWeAreText;
+              document.getElementById("mission").innerText = translations[lang].mission;
+              document.getElementById("mission-text").innerText = translations[lang].missionText;
+              document.getElementById("footer-text").innerText = translations[lang].footer;
+
+              // Меняем язык в селекторе
+              if (languageSwitcher) {
+                  languageSwitcher.value = lang;
+              }
+          }
+
+          // При загрузке страницы устанавливаем сохраненный язык
+          const savedLanguage = localStorage.getItem("selectedLanguage") || "ru"; // По умолчанию русский
+          changeLanguage(savedLanguage);
+
+          // Слушатель событий для переключателя языка
+          if (languageSwitcher) {
+              languageSwitcher.value = savedLanguage; // Устанавливаем селектор в сохраненный язык
+              languageSwitcher.addEventListener("change", function () {
+                  changeLanguage(this.value);
+              });
+          }
+      });
+      //menu//
+      function toggleMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('active');
+        }
+    </script>
+  </body>
+</html>

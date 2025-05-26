@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FarmMedEx</title>
+
+    <!-- Добавляем favicon -->
+    <link rel="icon" type="image/png" href="pic/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="pic/favicon.png" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+              body {
+                  margin: 0;
+                  overflow: hidden;
+                  font-family: 'Arial', sans-serif;
+                  background: #000;
+                  color: white;
+                  position: relative;
+                  height: 100vh;
+              }
+
+              /* 📌 Фон */
+              .background-canvas {
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  z-index: -1; /* ✅ Фон будет позади всех элементов */
+              }
+
+
+              /* 📌 Шапка */
+              .header-container {
+                  position: fixed;
+                  top: 10px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  display: flex;
+                  align-items: center;
+                  background: rgba(0, 0, 0, 0.5);
+                  backdrop-filter: blur(10px);
+                  padding: 10px 30px;
+                  border-radius: 12px;
+                  z-index: 100;
+              }
+
+              .logo {
+                  width: 120px !important;
+                  margin-right: 10px;
+              }
+
+              .company-name {
+                  font-size: 2.5rem !important;
+                  font-weight: bold;
+                  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+                  margin: 0;
+              }
+
+              /* 📌 Переключатель языка */
+              .language-selector {
+                  position: fixed;
+                  top: 10px;
+                  right: 20px;
+                  background: rgba(0, 0, 0, 0.7);
+                  padding: 5px 10px;
+                  border-radius: 8px;
+                  color: #00ffff;
+                  font-size: 1rem;
+                  cursor: pointer;
+                  z-index: 100;
+              }
+
+              /* 📌 Навигация */
+              .nav-container {
+                  position: fixed;
+                  top: 60px;
+                  width: 60%;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 0 20%;
+                  z-index: 100;
+              }
+
+              .nav {
+                  display: flex;
+                  gap: 40px;
+                  background: rgba(3, 3, 3, 0.4);
+                  padding: 10px 20px;
+                  border-radius: 10px;
+                  transition: 0.3s;
+              }
+
+              .nav a {
+                  color: #00ffff;
+                  font-weight: bold;
+                  text-decoration: none;
+                  font-size: 1rem;
+                  transition: transform 0.3s, text-shadow 0.3s;
+              }
+
+              .nav a:hover {
+                  transform: scale(1.2);
+                  text-shadow: 0 0 12px rgba(0, 255, 255, 1);
+              }
+
+              /* 📌 Отступ слогана от навигации в мобильной версии */
+      @media (max-width: 768px) {
+          .slogan {
+              margin-top: 5px; /* ✅ Отступ слогана */
+          }
+
+          .nav-container {
+              flex-direction: column;
+              align-items: center;
+              gap: 10px;
+              margin-top: 80px; /* ✅ Двигаем вниз */
+          }
+
+          .nav {
+              flex-direction: column;
+              align-items: center;
+          }
+
+          .nav a {
+              font-size: 1.2rem;
+              padding: 5px 0;
+          }
+      }
+
+
+      /* 📌 ГЛАВНЫЙ КОНТЕЙНЕР */
+      .slogan-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 115vh; /* Высота 100% экрана */
+          width: 100%;
+          position: relative; /* Важно! Заменяем absolute */
+          text-align: center;
+      }
+
+      /* 📌 СЛОГАН */
+      .slogan {
+          font-size: 3rem;
+          font-weight: bold;
+          color: #00ffff;
+          text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+          margin-bottom: 30px; /* ✅ ОТСТУП МЕЖДУ ЭЛЕМЕНТАМИ */
+      }
+
+      /* 📌 ОПИСАНИЕ */
+      .description {
+          font-size: 1.3rem;
+          padding: 30px;
+          max-width: 800px;
+          background: rgba(0, 0, 0, 0.7);
+          border-radius: 10px;
+          box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+          margin-top: 30px; /* ✅ ОТСТУП ОТ СЛОГАНА */
+      }
+
+
+      /* 📌 Адаптация для планшетов (1024px) */
+      @media (max-width: 1024px) {
+          .slogan {
+              font-size: 2.5rem;
+              margin-bottom: 25px;
+          }
+          .description {
+              font-size: 1.1rem;
+              padding: 25px;
+              max-width: 90%;
+          }
+      }
+
+      /* 📌 Адаптация для мобильных (768px) */
+      @media (max-width: 768px) {
+          .slogan {
+              font-size: 2rem;
+              margin-bottom: 20px;
+              padding: 0 15px; /* ✅ Добавляем отступы по бокам */
+          }
+          .description {
+              font-size: 1rem;
+              padding: 20px;
+              max-width: 85%;
+              margin: 0 auto; /* ✅ Центрируем */
+          }
+      }
+      @media (max-width: 768px) {
+          .slogan-container {
+              margin-top: 180px; /* 📱 Увеличенный отступ сверху */
+          }
+      }
+
+
+      /* 📌 Адаптация для маленьких экранов (480px) */
+      @media (max-width: 480px) {
+          .slogan {
+              font-size: 1.7rem;
+              margin-bottom: 15px;
+              padding: 0 10px; /* ✅ Еще больше отступов */
+          }
+          .description {
+              font-size: 0.9rem;
+              padding: 15px;
+              max-width: 90%;
+              margin: 0 auto; /* ✅ Центрируем */
+          }
+      }
+
+
+              /* 📌 Подвал */
+              html, body {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+      }
+
+      .slogan-container {
+          flex: 1; /* Заставляет контент занимать доступное место */
+      }
+
+      .footer {
+          text-align: center;
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.6);
+          background: rgba(0, 0, 0, 0.85);
+          padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 📌 Фон -->
+    <canvas class="background-canvas"></canvas>
+
+    <!-- 📌 Шапка -->
+    <div class="header-container">
+      <img src="pic/logo.png" class="logo" alt="FarmMedEx" />
+      <h1 class="company-name" data-lang="company-name">FarmMedEx</h1>
+    </div>
+
+    <!-- 📌 Переключатель языка -->
+    <select class="language-selector" id="language-switcher">
+      <option value="ru">Русский</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+      <option value="kk">Қазақша</option>
+      <option value="ar">العربية</option>
+    </select>
+
+    <!-- 📌 Навигация -->
+    <div class="nav-container">
+      <div class="nav">
+        <a href="about.html" data-lang="nav-about">О компании</a>
+      </div>
+      <div class="nav">
+        <a href="projects.html" data-lang="nav-projects">Проекты</a>
+        <a href="contact.html" data-lang="nav-contacts">Контакты</a>
+      </div>
+    </div>
+
+    <!-- 📌 Слоган -->
+    <div class="slogan-container">
+      <h1 class="slogan" data-lang="slogan">Технологии будущего – сегодня</h1>
+      <p class="description" data-lang="description">
+        <strong>ФармМедЭкс</strong> – инновационная компания, разрабатывающая
+        передовые технологии на базе AI.
+      </p>
+    </div>
+
+    <!-- 📌 Подвал -->
+    <div class="footer" data-lang="footer">
+      © 2025 ФармМедЭкс. Все права защищены.
+    </div>
+
+    <!-- 📌 Подключение скриптов -->
+    <script src="/script.js"></script>
+
+    <script>
+          document.addEventListener("DOMContentLoaded", function () {
+          const languageSwitcher = document.getElementById("language-switcher");
+
+          // Функция смены языка
+          function changeLanguage(lang) {
+              localStorage.setItem("selectedLanguage", lang); // Сохраняем язык в localStorage
+
+              const translations = {
+                  ru: {
+                      companyName: "FarmMedEx",
+                      slogan: "Технологии будущего – сегодня",
+                      description: "<strong>ФармМедЭкс</strong> – инновационная компания, разрабатывающая передовые технологии на базе AI.",
+                      about: "О компании",
+                      projects: "Проекты",
+                      contacts: "Контакты",
+                      footer: "© 2025 ФармМедЭкс. Все права защищены."
+                  },
+                  en: {
+                      companyName: "FarmMedEx",
+                      slogan: "Future Technologies – Today",
+                      description: "<strong>FarmMedEx</strong> is an innovative company developing cutting-edge AI-based technologies.",
+                      about: "About Us",
+                      projects: "Projects",
+                      contacts: "Contacts",
+                      footer: "© 2025 FarmMedEx. All rights reserved."
+                  },
+                  de: {
+                      companyName: "FarmMedEx",
+                      slogan: "Technologien der Zukunft – heute",
+                      description: "<strong>FarmMedEx</strong> ist ein innovatives Unternehmen, das modernste KI-Technologien entwickelt.",
+                      about: "Über uns",
+                      projects: "Projekte",
+                      contacts: "Kontakte",
+                      footer: "© 2025 FarmMedEx. Alle Rechte vorbehalten."
+                  },
+                  kk: {
+                      companyName: "FarmMedEx",
+                      slogan: "Болашақ технологиялары – бүгін",
+                      description: "<strong>FarmMedEx</strong> – ЖЗ (Жасанды Зият) негізіндегі озық технологияларды әзірлейтін жаңартпашылық серіктестік",
+                      about: "Серіктестік туралы",
+                      projects: "Жобалар",
+                      contacts: "Байланыстар",
+                      footer: "© 2025 ФармМедЭкс. Барлық құқықтар қорғалған."
+                  },
+                  ar: {
+                      companyName: "FarmMedEx",
+                      slogan: "تقنيات المستقبل – اليوم",
+                      description: "<strong>FarmMedEx</strong> هي شركة مبتكرة تقوم بتطوير تقنيات حديثة تعتمد على الذكاء الاصطناعي.",
+                      about: "عن الشركة",
+                      projects: "المشاريع",
+                      contacts: "اتصال",
+                      footer: "© 2025 فارم ميد إكس. جميع الحقوق محفوظة."
+                  }
+              };
+
+              // Обновляем текстовые элементы на странице
+              document.querySelector(".company-name").innerText = translations[lang].companyName;
+              document.querySelector(".slogan").innerText = translations[lang].slogan;
+              document.querySelector(".description").innerHTML = translations[lang].description;
+              document.querySelector(".footer").innerText = translations[lang].footer;
+
+              // Меняем язык в навигации
+              document.querySelector("[data-lang='nav-about']").innerText = translations[lang].about;
+              document.querySelector("[data-lang='nav-projects']").innerText = translations[lang].projects;
+              document.querySelector("[data-lang='nav-contacts']").innerText = translations[lang].contacts;
+
+              // Устанавливаем выбранный язык в селекторе
+              if (languageSwitcher) {
+                  languageSwitcher.value = lang;
+              }
+          }
+
+          // Устанавливаем сохранённый язык (или русский по умолчанию)
+          const savedLanguage = localStorage.getItem("selectedLanguage") || "ru";
+          changeLanguage(savedLanguage);
+
+          // Обработчик смены языка
+          if (languageSwitcher) {
+              languageSwitcher.value = savedLanguage;
+              languageSwitcher.addEventListener("change", function () {
+                  changeLanguage(this.value);
+              });
+          }
+      });
+    </script>
+  </body>
+</html>
