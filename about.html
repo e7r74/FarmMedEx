@@ -1,521 +1,604 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title id="page-title">О компании</title>
 
     <!-- Добавляем favicon -->
-    <link rel="icon" type="image/png" href="pic/favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="pic/favicon.png">
+    <link rel="icon" type="image/png" href="pic/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="pic/favicon.png" />
 
     <style>
-        /* 📌 Основные стили */
-        body {
-            background: #000;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            overflow-x: hidden;
-        }
+              /* 📌 Основные стили */
+              body {
+                  background: #000;
+                  color: white;
+                  font-family: 'Arial', sans-serif;
+                  margin: 0;
+                  padding: 0;
+                  position: relative;
+                  overflow-x: hidden;
+              }
 
-        /* 📌 Фиксированная шапка */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
+              /* 📌 Фиксированная шапка */
+              .header {
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  background: rgba(0, 0, 0, 0.85);
+                  padding: 15px 30px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+                  z-index: 1000;
+              }
+                    .container-header{
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                gap:80px
+
+            }
+              .logo-container {
+                  display: flex;
+                  align-items: center;
+                  gap: 15px;
+                  text-decoration: none;
+              }
+
+              .logo-container img {
+                  width: 70px;
+                  height: 70px;
+              }
+
+              .logo-text {
+                  font-size: 2rem;
+                  font-weight: bold;
+                  color: #00ffff;
+                  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+                  text-decoration: none;
+              }
+
+              /* 📌 Переключатель языка */
+              .language-selector {
+                  position: fixed;
+                  top: 35px;
+                  right: 40px;
+                  background: rgba(0, 0, 0, 0.7);
+                  padding: 5px 10px;
+                  border-radius: 8px;
+                  color: #00ffff;
+                  font-size: 1rem;
+                  cursor: pointer;
+                  z-index: 100;
+              }
+
+              /* 📌 Навигация */
+              .nav {
+                  display: flex;
+                  gap: 25px;
+                  position: relative;
+                  left: -200px;
+              }
+
+              .nav a {
+                  color: #00ffff;
+                  text-decoration: none;
+                  font-size: 1.2rem;
+                  transition: 0.3s;
+              }
+
+              .nav a:hover {
+                  text-shadow: 0 0 15px rgba(0, 255, 255, 1);
+                  transform: scale(1.1);
+              }
+
+              /* 📌 Основной контейнер */
+              .container {
+                  max-width: 1200px;
+                  margin: 120px auto;
+                  padding: 20px;
+                  text-align: center;
+              }
+
+              .section {
+                  background: rgba(0, 0, 0, 0.85);
+                  padding: 30px;
+                  margin: 20px 0;
+                  border-radius: 12px;
+                  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+                  text-align: left;
+              }
+
+              .section h2 {
+                  color: #00ffff;
+                  font-size: 1.8rem;
+                  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+              }
+
+              .section p {
+                  font-size: 1.2rem;
+                  line-height: 1.6;
+              }
+              /*  */
+              .hamburger {
+      display: none; /* покажем только на мобилке */
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      padding: 10px;
+      }
+
+      .hamburger .bar {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      border-radius: 2px;
+      }
+
+      /* 📌 Для мобильных устройств */
+      @media (max-width: 768px) {
+          /* ✅ Шапка выстраивается в колонку */
+          .header {
+              flex-direction: column;
+              align-items: center;
+              padding: 15px;
+          }
+
+          /* ✅ Логотип */
+          .logo-container {
+              margin-bottom: 10px; /* Отступ снизу */
+          }
+
+          /* ✅ Переключатель языка */
+          .language-selector {
+              position: relative;
+              margin-top: 5px; /* Отступ сверху */
+              right: auto; /* Убираем фиксированное позиционирование */
+              top: auto;
+          }
+          /*  */
+          .hamburger {
+      display: flex;
+      }
+
+      /* Прячем обычное меню */
+      .nav {
+      display: none;
+      }
+      #nav-menu {
+      display: none;
+      /* flex-direction: column; */
+      justify-content: center;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.253);
+      /* position: absolute; */
+      margin-top: 1%;
+      top: 60px;
+      left: 0;
+      }
+
+      /* Когда активен класс, показываем меню */
+      #nav-menu.active {
+      display: flex;
+      }
+
+      /* Сделать бургер видимым */
+      .hamburger {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      }
+
+          /* 📌 Адаптация меню на мобильных */
+      @media (max-width: 1024px) {
+          .header {
+              flex-direction: column; /* ✅ Меню теперь идет ниже логотипа */
+              align-items: center;
+              padding: 15px;
+          }
+
+          .logo-container {
+              margin-bottom: 10px; /* ✅ Добавляем отступ между логотипом и меню */
+          }
+
+          .nav {
+              display: flex;
+              flex-direction: column; /* ✅ Навигация в колонку */
+              align-items: center;
+              gap: 12px; /* Расстояние между ссылками */
+              position: relative;
+              left: 0; /* Убираем смещение */
+              margin-top: 10px;
+          }
+          .footer{
             width: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
-            z-index: 1000;
-        }
+          }
+      }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-        }
+      /* 📌 Дополнительно для экранов 768px и меньше */
+      @media (max-width: 768px) {
+          .header {
+              padding: 10px;
+          }
 
-        .logo-container img {
-            width: 70px;
-            height: 70px;
-        }
+          .logo-container img {
+              width: 60px; /* ✅ Уменьшаем логотип на мобильных */
+              height: 60px;
+          }
 
-        .logo-text {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-            text-decoration: none;
-        }
+          .nav {
+              gap: 10px; /* Немного уменьшаем отступы */
+          }
 
-        /* 📌 Переключатель языка */
-        .language-selector {
-            position: fixed;
-            top: 35px;
-            right: 40px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px 10px;
-            border-radius: 8px;
-            color: #00ffff;
-            font-size: 1rem;
-            cursor: pointer;
-            z-index: 100;
-        }
-
-        /* 📌 Навигация */
-        .nav {
-            display: flex;
-            gap: 25px;
-            position: relative;
-            left: -200px;
-        }
-
-        .nav a {
-            color: #00ffff;
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: 0.3s;
-        }
-
-        .nav a:hover {
-            text-shadow: 0 0 15px rgba(0, 255, 255, 1);
-            transform: scale(1.1);
-        }
-
-        /* 📌 Основной контейнер */
-        .container {
-            max-width: 1200px;
-            margin: 120px auto;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .section {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 30px;
-            margin: 20px 0;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
-            text-align: left;
-        }
-
-        .section h2 {
-            color: #00ffff;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-        }
-
-        .section p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-        }
-
-/* 📌 Для мобильных устройств */
-@media (max-width: 768px) {
-    /* ✅ Шапка выстраивается в колонку */
-    .header {
-        flex-direction: column;
-        align-items: center;
-        padding: 15px;
-    }
-
-    /* ✅ Логотип */
-    .logo-container {
-        margin-bottom: 10px; /* Отступ снизу */
-    }
-
-    /* ✅ Переключатель языка */
-    .language-selector {
-        position: relative;
-        margin-top: 5px; /* Отступ сверху */
-        right: auto; /* Убираем фиксированное позиционирование */
-        top: auto;
-    }
-
-    /* 📌 Адаптация меню на мобильных */
-@media (max-width: 1024px) {
-    .header {
-        flex-direction: column; /* ✅ Меню теперь идет ниже логотипа */
-        align-items: center;
-        padding: 15px;
-    }
-
-    .logo-container {
-        margin-bottom: 10px; /* ✅ Добавляем отступ между логотипом и меню */
-    }
-
-    .nav {
-        display: flex;
-        flex-direction: column; /* ✅ Навигация в колонку */
-        align-items: center;
-        gap: 12px; /* Расстояние между ссылками */
-        position: relative;
-        left: 0; /* Убираем смещение */
-        margin-top: 10px;
-    }
-}
-
-/* 📌 Дополнительно для экранов 768px и меньше */
-@media (max-width: 768px) {
-    .header {
-        padding: 10px;
-    }
-
-    .logo-container img {
-        width: 60px; /* ✅ Уменьшаем логотип на мобильных */
-        height: 60px;
-    }
-
-    .nav {
-        gap: 10px; /* Немного уменьшаем отступы */
-    }
-
-    .nav a {
-        font-size: 1rem; /* ✅ Уменьшаем размер ссылок */
-    }
-}
+          .nav a {
+              font-size: 1rem; /* ✅ Уменьшаем размер ссылок */
+          }
+      }
 
 
-    /* ✅ Заголовок "Наши проекты" */
-    #page-title {
-        margin-top: 40px; /* Отступ от меню */
-        font-size: 1.8rem;
-    }
+          /* ✅ Заголовок "Наши проекты" */
+          #page-title {
+              margin-top: 40px; /* Отступ от меню */
+              font-size: 1.8rem;
+          }
 
-    /* ✅ Контейнер с проектами - один столбец */
-    .projects-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 15px; /* Расстояние между проектами */
-        align-items: center;
-    }
+          /* ✅ Контейнер с проектами - один столбец */
+          .projects-grid {
+              display: flex;
+              flex-direction: column;
+              gap: 15px; /* Расстояние между проектами */
+              align-items: center;
+          }
 
-    .project-card {
-        width: 90%; /* Проекты занимают большую часть экрана */
-    }
-}
+          .project-card {
+              width: 90%; /* Проекты занимают большую часть экрана */
+          }
+      }
 
-@media (max-width: 768px) {
-    .container {
-        margin-top: 180px; /* Смещаем весь блок ниже */
-    }
-}
+      @media (max-width: 768px) {
+          .container {
+              margin-top: 180px; /* Смещаем весь блок ниже */
+          }
+      }
 
-@media (max-width: 480px) {
-    .container {
-        margin-top: 220px; /* Еще ниже для маленьких экранов */
-    }
-}
+      @media (max-width: 480px) {
+          .container {
+              margin-top: 80px; /* Еще ниже для маленьких экранов */
+          }
+      }
 
 
-        /* 📌 Подвал */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            background: rgba(0, 0, 0, 0.85);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
-            margin-top: 30px;
-        }
+              /* 📌 Подвал */
+              .footer {
+                  text-align: center;
+                  padding: 20px;
+                  font-size: 1rem;
+                  color: rgba(255, 255, 255, 0.7);
+                  background: rgba(0, 0, 0, 0.85);
+                  box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+                  margin-top: 30px;
+              }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- 📌 Фиксированная шапка -->
     <header class="header">
-        <a href="index.html" class="logo-container">
-            <img src="pic/logo.png" alt="Логотип">
+      <div class="container-header">
+        <div class="logo">
+          <a href="index.html" class="logo-container">
+            <img src="pic/logo.png" alt="AgriHub.KZ Логотип" />
             <div class="logo-text">FarmMedEx</div>
-        </a>
-
-        <!-- 📌 Переключатель языка -->
-        <select class="language-selector" id="language-switcher">
+          </a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+          <!-- Кнопка с тремя полосками -->
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div id="nav-menu">
+        <div class="nav-links">
+          <select class="language-selector" id="language-switcher">
             <option value="ru">Русский</option>
             <option value="en">English</option>
             <option value="de">Deutsch</option>
             <option value="kk">Қазақша</option>
             <option value="ar">العربية</option>
-        </select>
+          </select>
 
-        <nav class="nav">
+          <nav class="nav">
             <a id="home-link" href="index.html">Главная</a>
             <a id="projects-link" href="projects.html">Проекты</a>
             <a id="contact-link" href="contact.html">Контакты</a>
-        </nav>
+          </nav>
+        </div>
+      </div>
+      <!-- 📌 Переключатель языка -->
     </header>
-
+    <!-- <a id="projects-link" href="projects.html">Проекты</a> -->
     <!-- 📌 Основной контейнер -->
     <div class="container">
-    <h1 id="about-title">О компании</h1>
+      <h1 id="about-title">О компании</h1>
 
-    <div class="section">
+      <div class="section">
         <h2 id="who-we-are">Кто мы?</h2>
         <p id="who-we-are-text">
-            <strong>ФармМедЭкс</strong> — инновационная технологическая компания, разрабатывающая передовые решения на основе искусственного интеллекта, автоматизации и цифровых платформ. Мы создаем продукты, которые меняют медицину, агропромышленность, кибербезопасность и бизнес-аналитику, помогая компаниям и государственным организациям внедрять технологии будущего уже сегодня.
+          <strong>ФармМедЭкс</strong> — инновационная технологическая компания,
+          разрабатывающая передовые решения на основе искусственного интеллекта,
+          автоматизации и цифровых платформ. Мы создаем продукты, которые меняют
+          медицину, агропромышленность, кибербезопасность и бизнес-аналитику,
+          помогая компаниям и государственным организациям внедрять технологии
+          будущего уже сегодня.
         </p>
-    </div>
+      </div>
 
-    <div class="section">
+      <div class="section">
         <h2 id="mission">Наша миссия</h2>
         <p id="mission-text">
-            Мы стремимся к технологической революции в ключевых отраслях, используя AI, Big Data и автоматизацию для повышения эффективности, безопасности и качества жизни. Наши разработки помогают медицинским учреждениям, фермерам, предпринимателям и государственным структурам делать более точные прогнозы, оптимизировать процессы и управлять данными в режиме реального времени.
+          Мы стремимся к технологической революции в ключевых отраслях,
+          используя AI, Big Data и автоматизацию для повышения эффективности,
+          безопасности и качества жизни. Наши разработки помогают медицинским
+          учреждениям, фермерам, предпринимателям и государственным структурам
+          делать более точные прогнозы, оптимизировать процессы и управлять
+          данными в режиме реального времени.
         </p>
-    </div>
+      </div>
 
-    <div class="section">
+      <div class="section">
         <h2 id="what-we-do">Чем мы занимаемся?</h2>
         <ul id="what-we-do-list">
-            <li>Разработка AI-решений для медицины, бизнеса и промышленности</li>
-            <li>Создание платформ для анализа данных и прогнозирования</li>
-            <li>Автоматизация процессов в сельском хозяйстве (AgriTech)</li>
-            <li>Инновационные технологии в сфере кибербезопасности</li>
-            <li>Развитие VR/AR-продуктов для образования и бизнеса</li>
+          <li>Разработка AI-решений для медицины, бизнеса и промышленности</li>
+          <li>Создание платформ для анализа данных и прогнозирования</li>
+          <li>Автоматизация процессов в сельском хозяйстве (AgriTech)</li>
+          <li>Инновационные технологии в сфере кибербезопасности</li>
+          <li>Развитие VR/AR-продуктов для образования и бизнеса</li>
         </ul>
-    </div>
+      </div>
 
-    <div class="section">
+      <div class="section">
         <h2 id="why-choose-us">Почему выбирают нас?</h2>
         <ul id="why-choose-us-list">
-            <li>✅ Комплексные AI-решения для различных отраслей</li>
-            <li>✅ Передовые технологии Big Data и автоматизации</li>
-            <li>✅ Работа с государственным и частным сектором</li>
-            <li>✅ Гарантия надежности и безопасности данных</li>
+          <li>✅ Комплексные AI-решения для различных отраслей</li>
+          <li>✅ Передовые технологии Big Data и автоматизации</li>
+          <li>✅ Работа с государственным и частным сектором</li>
+          <li>✅ Гарантия надежности и безопасности данных</li>
         </ul>
+      </div>
     </div>
-</div>
-
 
     <footer class="footer" id="footer-text">
-        📍 Наш адрес: г. Алматы | © 2025 ФармМедЭкс. Все права защищены.
+      📍 Наш адрес: г. Алматы | © 2025 ФармМедЭкс. Все права защищены.
     </footer>
 
     <!-- 📌 Скрипт для смены языка -->
     <script>
-        const translations = {
-    ru: {
-    title: "О компании",
-    home: "Главная",
-    projects: "Проекты",
-    contact: "Контакты",
-    aboutTitle: "О компании",
-    whoWeAre: "Кто мы?",
-    whoWeAreText: "<strong>ФармМедЭкс</strong> — инновационная технологическая компания, разрабатывающая передовые решения на базе искусственного интеллекта, автоматизации и цифровых платформ. Мы создаем продукты, которые меняют медицину, агропромышленность, кибербезопасность и бизнес-аналитику, помогая компаниям и государственным организациям внедрять технологии будущего уже сегодня.",
-    mission: "Наша миссия",
-    missionText: "Мы стремимся к технологической революции в ключевых отраслях, используя AI, Big Data и автоматизацию для повышения эффективности, безопасности и качества жизни. Наши разработки помогают медицинским учреждениям, фермерам, предпринимателям и государственным структурам делать более точные прогнозы, оптимизировать процессы и управлять данными в режиме реального времени.",
-    whatWeDo: "Чем мы занимаемся?",
-    whatWeDoList: [
-        "Разработка AI-решений для медицины, бизнеса и промышленности",
-        "Создание платформ для анализа данных и прогнозирования",
-        "Автоматизация процессов в сельском хозяйстве (AgriTech)",
-        "Инновационные технологии в сфере кибербезопасности",
-        "Развитие VR/AR-продуктов для образования и бизнеса"
-    ],
-    whyChooseUs: "Почему выбирают нас?",
-    whyChooseUsList: [
-        "✅ Комплексные AI-решения для различных отраслей",
-        "✅ Передовые технологии Big Data и автоматизации",
-        "✅ Работа с государственным и частным сектором",
-        "✅ Гарантия надежности и безопасности данных"
-    ],
-    footer: "📍 Наш адрес: г. Алматы | © 2025 ФармМедЭкс. Все права защищены."
-},
 
-    en: {
-    title: "About Us",
-    home: "Home",
-    projects: "Projects",
-    contact: "Contacts",
-    aboutTitle: "About Us",
-    whoWeAre: "Who are we?",
-    whoWeAreText: "<strong>FarmMedEx</strong> is an innovative technology company developing cutting-edge solutions based on artificial intelligence, automation, and digital platforms. We create products that transform healthcare, agribusiness, cybersecurity, and business analytics, enabling companies and government organizations to adopt future technologies today.",
-    mission: "Our Mission",
-    missionText: "We aim to drive technological transformation in key industries by leveraging AI, Big Data, and automation to enhance efficiency, security, and quality of life. Our solutions help medical institutions, farmers, entrepreneurs, and government entities make accurate predictions, optimize processes, and manage data in real time.",
-    whatWeDo: "What do we do?",
-    whatWeDoList: [
-        "Development of AI solutions for healthcare, business, and industry",
-        "Creation of data analysis and predictive platforms",
-        "Automation of agricultural processes (AgriTech)",
-        "Innovative cybersecurity technologies",
-        "Advancing VR/AR products for education and business"
-    ],
-    whyChooseUs: "Why choose us?",
-    whyChooseUsList: [
-        "✅ Comprehensive AI-driven solutions for various industries",
-        "✅ Cutting-edge Big Data and automation technologies",
-        "✅ Collaboration with both government and private sectors",
-        "✅ Guaranteed data security and reliability"
-    ],
-    footer: "📍 Our address: Almaty | © 2025 FarmMedEx. All rights reserved."
-},
-    de: {
-    title: "Über uns",
-    home: "Startseite",
-    projects: "Projekte",
-    contact: "Kontakte",
-    aboutTitle: "Über uns",
-    whoWeAre: "Wer sind wir?",
-    whoWeAreText: "<strong>FarmMedEx</strong> ist ein innovatives Technologieunternehmen, das modernste Lösungen auf Basis von künstlicher Intelligenz, Automatisierung und digitalen Plattformen entwickelt. Unsere Produkte revolutionieren das Gesundheitswesen, die Agrarindustrie, die Cybersicherheit und die Geschäftsanalytik und ermöglichen es Unternehmen und öffentlichen Institutionen, bereits heute Technologien der Zukunft zu nutzen.",
-    mission: "Unsere Mission",
-    missionText: "Unser Ziel ist es, die digitale Transformation in Schlüsselindustrien voranzutreiben, indem wir KI, Big Data und Automatisierung nutzen, um Effizienz, Sicherheit und Lebensqualität zu verbessern. Unsere Lösungen helfen medizinischen Einrichtungen, Landwirten, Unternehmern und Behörden, präzise Vorhersagen zu treffen, Prozesse zu optimieren und Daten in Echtzeit zu verwalten.",
-    whatWeDo: "Was machen wir?",
-    whatWeDoList: [
-        "Entwicklung von KI-Lösungen für Gesundheitswesen, Wirtschaft und Industrie",
-        "Erstellung von Datenanalyse- und Prognoseplattformen",
-        "Automatisierung landwirtschaftlicher Prozesse (AgriTech)",
-        "Innovative Cybersicherheitstechnologien",
-        "Entwicklung von VR/AR-Produkten für Bildung und Wirtschaft"
-    ],
-    whyChooseUs: "Warum uns wählen?",
-    whyChooseUsList: [
-        "✅ Umfassende KI-gesteuerte Lösungen für verschiedene Branchen",
-        "✅ Modernste Big-Data- und Automatisierungstechnologien",
-        "✅ Zusammenarbeit mit öffentlichen und privaten Institutionen",
-        "✅ Garantierte Datensicherheit und Zuverlässigkeit"
-    ],
-    footer: "📍 Unsere Adresse: Almaty | © 2025 FarmMedEx. Alle Rechte vorbehalten."
-},
-    kk: {
-    title: "Компания туралы",
-    home: "Басты бет",
-    projects: "Жобалар",
-    contact: "Байланыстар",
-    aboutTitle: "Компания туралы",
-    whoWeAre: "Біз кімбіз?",
-    whoWeAreText: "<strong>FarmMedEx</strong> – жасанды интеллект, автоматтандыру және цифрлық платформалар негізінде заманауи шешімдерді әзірлейтін инновациялық технологиялық компания. Біздің өнімдер денсаулық сақтау, агроөнеркәсіп, киберқауіпсіздік және бизнес-аналитика салаларын жаңа деңгейге көтеріп, ұйымдар мен мемлекеттік мекемелерге болашақтың технологияларын бүгін пайдалануға мүмкіндік береді.",
-    mission: "Біздің миссиямыз",
-    missionText: "Біздің мақсатымыз – жасанды интеллект, Big Data және автоматтандыру арқылы негізгі салаларда цифрлық трансформацияны дамыту. Біздің шешімдеріміз медициналық мекемелерге, фермерлерге, кәсіпкерлерге және мемлекеттік ұйымдарға нақты болжамдар жасауға, процестерді оңтайландыруға және деректерді нақты уақыт режимінде басқаруға көмектеседі.",
-    whatWeDo: "Біз не істейміз?",
-    whatWeDoList: [
-        "Денсаулық сақтау, бизнес және өнеркәсіпке арналған AI-шешімдерді әзірлеу",
-        "Деректерді талдау және болжамдау платформаларын жасау",
-        "Агроөнеркәсіптік процестерді автоматтандыру (AgriTech)",
-        "Инновациялық киберқауіпсіздік технологиялары",
-        "Білім беру және бизнеске арналған VR/AR өнімдерін әзірлеу"
-    ],
-    whyChooseUs: "Неліктен бізді таңдау керек?",
-    whyChooseUsList: [
-        "✅ Әртүрлі салаларға арналған кешенді AI-шешімдер",
-        "✅ Big Data және автоматтандырудың заманауи технологиялары",
-        "✅ Мемлекеттік және жеке мекемелермен ынтымақтастық",
-        "✅ Деректердің қауіпсіздігі мен сенімділігіне кепілдік"
-    ],
-    footer: "📍 Біздің мекенжайымыз: Алматы | © 2025 FarmMedEx. Барлық құқықтар қорғалған."
-},
-    ar: {
-    title: "معلومات عنا",
-    home: "الرئيسية",
-    projects: "المشاريع",
-    contact: "اتصال",
-    aboutTitle: "معلومات عنا",
-    whoWeAre: "من نحن؟",
-    whoWeAreText: "<strong>FarmMedEx</strong> هي شركة تكنولوجية مبتكرة متخصصة في تطوير الحلول الرقمية والذكاء الاصطناعي لمجموعة متنوعة من القطاعات، بما في ذلك الرعاية الصحية، والزراعة الذكية، والأمن السيبراني، وتحليل البيانات للأعمال. توفر حلولنا الحديثة الأدوات والتقنيات التي تساعد المؤسسات الحكومية والخاصة في تحقيق التحول الرقمي والاستفادة من تقنيات المستقبل اليوم.",
-    mission: "مهمتنا",
-    missionText: "نهدف إلى تعزيز التحول الرقمي عبر الذكاء الاصطناعي وتحليل البيانات، مما يمكن المؤسسات من تحسين العمليات، وزيادة الإنتاجية، وتعزيز الأمن، وتقديم حلول مستدامة لمختلف القطاعات.",
-    whatWeDo: "ماذا نفعل؟",
-    whatWeDoList: [
-        "تطوير حلول الذكاء الاصطناعي للقطاع الصحي، والأعمال، والصناعات",
-        "تصميم منصات تحليل البيانات والتنبؤ",
-        "أتمتة العمليات الزراعية وتحسين الإنتاج من خلال تقنيات AgriTech",
-        "تقديم حلول متطورة في مجال الأمن السيبراني وحماية البيانات",
-        "تطوير تقنيات الواقع الافتراضي والمعزز (VR/AR) للتعليم والأعمال"
-    ],
-    whyChooseUs: "لماذا تختارنا؟",
-    whyChooseUsList: [
-        "✅ حلول الذكاء الاصطناعي المتكاملة لمختلف القطاعات",
-        "✅ تقنيات متقدمة في البيانات الضخمة والأتمتة",
-        "✅ شراكات مع الجهات الحكومية والشركات الرائدة",
-        "✅ ضمان الأمان والموثوقية في إدارة البيانات"
-    ],
-    footer: "📍 عنواننا: ألماتي | © 2025 FarmMedEx. جميع الحقوق محفوظة."
-}
-};
+              const translations = {
+          ru: {
+          title: "О компании",
+          home: "Главная",
+          projects: "Проекты",
+          contact: "Контакты",
+          aboutTitle: "О компании",
+          whoWeAre: "Кто мы?",
+          whoWeAreText: "<strong>ФармМедЭкс</strong> — инновационная технологическая компания, разрабатывающая передовые решения на базе искусственного интеллекта, автоматизации и цифровых платформ. Мы создаем продукты, которые меняют медицину, агропромышленность, кибербезопасность и бизнес-аналитику, помогая компаниям и государственным организациям внедрять технологии будущего уже сегодня.",
+          mission: "Наша миссия",
+          missionText: "Мы стремимся к технологической революции в ключевых отраслях, используя AI, Big Data и автоматизацию для повышения эффективности, безопасности и качества жизни. Наши разработки помогают медицинским учреждениям, фермерам, предпринимателям и государственным структурам делать более точные прогнозы, оптимизировать процессы и управлять данными в режиме реального времени.",
+          whatWeDo: "Чем мы занимаемся?",
+          whatWeDoList: [
+              "Разработка AI-решений для медицины, бизнеса и промышленности",
+              "Создание платформ для анализа данных и прогнозирования",
+              "Автоматизация процессов в сельском хозяйстве (AgriTech)",
+              "Инновационные технологии в сфере кибербезопасности",
+              "Развитие VR/AR-продуктов для образования и бизнеса"
+          ],
+          whyChooseUs: "Почему выбирают нас?",
+          whyChooseUsList: [
+              "✅ Комплексные AI-решения для различных отраслей",
+              "✅ Передовые технологии Big Data и автоматизации",
+              "✅ Работа с государственным и частным сектором",
+              "✅ Гарантия надежности и безопасности данных"
+          ],
+          footer: "📍 Наш адрес: г. Алматы | © 2025 ФармМедЭкс. Все права защищены."
+      },
+
+          en: {
+          title: "About Us",
+          home: "Home",
+          projects: "Projects",
+          contact: "Contacts",
+          aboutTitle: "About Us",
+          whoWeAre: "Who are we?",
+          whoWeAreText: "<strong>FarmMedEx</strong> is an innovative technology company developing cutting-edge solutions based on artificial intelligence, automation, and digital platforms. We create products that transform healthcare, agribusiness, cybersecurity, and business analytics, enabling companies and government organizations to adopt future technologies today.",
+          mission: "Our Mission",
+          missionText: "We aim to drive technological transformation in key industries by leveraging AI, Big Data, and automation to enhance efficiency, security, and quality of life. Our solutions help medical institutions, farmers, entrepreneurs, and government entities make accurate predictions, optimize processes, and manage data in real time.",
+          whatWeDo: "What do we do?",
+          whatWeDoList: [
+              "Development of AI solutions for healthcare, business, and industry",
+              "Creation of data analysis and predictive platforms",
+              "Automation of agricultural processes (AgriTech)",
+              "Innovative cybersecurity technologies",
+              "Advancing VR/AR products for education and business"
+          ],
+          whyChooseUs: "Why choose us?",
+          whyChooseUsList: [
+              "✅ Comprehensive AI-driven solutions for various industries",
+              "✅ Cutting-edge Big Data and automation technologies",
+              "✅ Collaboration with both government and private sectors",
+              "✅ Guaranteed data security and reliability"
+          ],
+          footer: "📍 Our address: Almaty | © 2025 FarmMedEx. All rights reserved."
+      },
+          de: {
+          title: "Über uns",
+          home: "Startseite",
+          projects: "Projekte",
+          contact: "Kontakte",
+          aboutTitle: "Über uns",
+          whoWeAre: "Wer sind wir?",
+          whoWeAreText: "<strong>FarmMedEx</strong> ist ein innovatives Technologieunternehmen, das modernste Lösungen auf Basis von künstlicher Intelligenz, Automatisierung und digitalen Plattformen entwickelt. Unsere Produkte revolutionieren das Gesundheitswesen, die Agrarindustrie, die Cybersicherheit und die Geschäftsanalytik und ermöglichen es Unternehmen und öffentlichen Institutionen, bereits heute Technologien der Zukunft zu nutzen.",
+          mission: "Unsere Mission",
+          missionText: "Unser Ziel ist es, die digitale Transformation in Schlüsselindustrien voranzutreiben, indem wir KI, Big Data und Automatisierung nutzen, um Effizienz, Sicherheit und Lebensqualität zu verbessern. Unsere Lösungen helfen medizinischen Einrichtungen, Landwirten, Unternehmern und Behörden, präzise Vorhersagen zu treffen, Prozesse zu optimieren und Daten in Echtzeit zu verwalten.",
+          whatWeDo: "Was machen wir?",
+          whatWeDoList: [
+              "Entwicklung von KI-Lösungen für Gesundheitswesen, Wirtschaft und Industrie",
+              "Erstellung von Datenanalyse- und Prognoseplattformen",
+              "Automatisierung landwirtschaftlicher Prozesse (AgriTech)",
+              "Innovative Cybersicherheitstechnologien",
+              "Entwicklung von VR/AR-Produkten für Bildung und Wirtschaft"
+          ],
+          whyChooseUs: "Warum uns wählen?",
+          whyChooseUsList: [
+              "✅ Umfassende KI-gesteuerte Lösungen für verschiedene Branchen",
+              "✅ Modernste Big-Data- und Automatisierungstechnologien",
+              "✅ Zusammenarbeit mit öffentlichen und privaten Institutionen",
+              "✅ Garantierte Datensicherheit und Zuverlässigkeit"
+          ],
+          footer: "📍 Unsere Adresse: Almaty | © 2025 FarmMedEx. Alle Rechte vorbehalten."
+      },
+          kk: {
+          title: "Компания туралы",
+          home: "Басты бет",
+          projects: "Жобалар",
+          contact: "Байланыстар",
+          aboutTitle: "Компания туралы",
+          whoWeAre: "Біз кімбіз?",
+          whoWeAreText: "<strong>FarmMedEx</strong> – жасанды зият (ЖЗ), автоматтандыру және цифрлық алаңқайлар негізінде заманауи шешімдерді әзірлейтін жаңартпашылық технологиялық компания. Біздің өнімдер денсаулық сақтау, агроөнеркәсіп, киберқауіпсіздік және бизнес- сараптау салаларын жаңа деңгейге көтеріп, ұйымдар мен мемлекеттік мекемелерге болашақтың технологияларын бүгін пайдалануға мүмкіндік береді.",
+          mission: "Біздің іс міндетіміз ",
+          missionText: "Біздің мақсатымыз – жасанды зият (ЖЗ), Big Data және автоматтандыру арқылы негізгі салаларда цифрлық түрлендіруді дамыту. Біздің шешімдеріміз медициналық мекемелерге, фермерлерге, кәсіпкерлерге және мемлекеттік ұйымдарға нақты болжамдар жасауға, үдерістерді оңтайландыруға және деректерді нақты уақыт тәртібінде басқаруға көмектеседі.",
+          whatWeDo: "Біз немен айналысамыз?",
+          whatWeDoList: [
+              "Денсаулық сақтау, бизнес және өнеркәсіпке арналған жасанды зият (ЖЗ)-шешімдерді әзірлеу",
+              "Деректерді талдау және болжамдау алаңқайларын жасау",
+              "Агроөнеркәсіптік үдерістерді автоматтандыру (AgriTech)»",
+              "Жаңартпашылық киберқауіпсіздік технологиялары",
+              "Білім беру және бизнеске арналған Виртуалды Шындық (VR)/ Толықтырылған Шындық (AR) өнімдерін әзірлеу"
+          ],
+          whyChooseUs: "Неліктен бізді таңдау керек?",
+          whyChooseUsList: [
+              "✅ Әртүрлі салаларға арналған кешенді Жасанды Зият (ЖЗ)-шешімдер үшін",
+              "✅ Big Data және автоматтандырудың заманауи технологиялары үшін",
+              "✅ Мемлекеттік және жеке мекемелермен ынтымақтастық үшін",
+              "✅ Деректердің қауіпсіздігі мен сенімділігіне кепілдік үшін"
+          ],
+          footer: "📍 Біздің мекенжайымыз: Алматы | © 2025 FarmMedEx. Барлық құқықтар қорғалған."
+      },
+          ar: {
+          title: "معلومات عنا",
+          home: "الرئيسية",
+          projects: "المشاريع",
+          contact: "اتصال",
+          aboutTitle: "معلومات عنا",
+          whoWeAre: "من نحن؟",
+          whoWeAreText: "<strong>FarmMedEx</strong> هي شركة تكنولوجية مبتكرة متخصصة في تطوير الحلول الرقمية والذكاء الاصطناعي لمجموعة متنوعة من القطاعات، بما في ذلك الرعاية الصحية، والزراعة الذكية، والأمن السيبراني، وتحليل البيانات للأعمال. توفر حلولنا الحديثة الأدوات والتقنيات التي تساعد المؤسسات الحكومية والخاصة في تحقيق التحول الرقمي والاستفادة من تقنيات المستقبل اليوم.",
+          mission: "مهمتنا",
+          missionText: "نهدف إلى تعزيز التحول الرقمي عبر الذكاء الاصطناعي وتحليل البيانات، مما يمكن المؤسسات من تحسين العمليات، وزيادة الإنتاجية، وتعزيز الأمن، وتقديم حلول مستدامة لمختلف القطاعات.",
+          whatWeDo: "ماذا نفعل؟",
+          whatWeDoList: [
+              "تطوير حلول الذكاء الاصطناعي للقطاع الصحي، والأعمال، والصناعات",
+              "تصميم منصات تحليل البيانات والتنبؤ",
+              "أتمتة العمليات الزراعية وتحسين الإنتاج من خلال تقنيات AgriTech",
+              "تقديم حلول متطورة في مجال الأمن السيبراني وحماية البيانات",
+              "تطوير تقنيات الواقع الافتراضي والمعزز (VR/AR) للتعليم والأعمال"
+          ],
+          whyChooseUs: "لماذا تختارنا؟",
+          whyChooseUsList: [
+              "✅ حلول الذكاء الاصطناعي المتكاملة لمختلف القطاعات",
+              "✅ تقنيات متقدمة في البيانات الضخمة والأتمتة",
+              "✅ شراكات مع الجهات الحكومية والشركات الرائدة",
+              "✅ ضمان الأمان والموثوقية في إدارة البيانات"
+          ],
+          footer: "📍 عنواننا: ألماتي | © 2025 FarmMedEx. جميع الحقوق محفوظة."
+      }
+      };
 
 
-        function changeLanguage(lang) {
-            document.getElementById("page-title").innerText = translations[lang].title;
-            document.getElementById("home-link").innerText = translations[lang].home;
-            document.getElementById("projects-link").innerText = translations[lang].projects;
-            document.getElementById("contact-link").innerText = translations[lang].contact;
-            document.getElementById("about-title").innerText = translations[lang].aboutTitle;
-            document.getElementById("who-we-are").innerText = translations[lang].whoWeAre;
-            document.getElementById("who-we-are-text").innerHTML = translations[lang].whoWeAreText;
-            document.getElementById("mission").innerText = translations[lang].mission;
-            document.getElementById("mission-text").innerText = translations[lang].missionText;
-            document.getElementById("footer-text").innerText = translations[lang].footer;
+              function changeLanguage(lang) {
+                  document.getElementById("page-title").innerText = translations[lang].title;
+                  document.getElementById("home-link").innerText = translations[lang].home;
+                  document.getElementById("projects-link").innerText = translations[lang].projects;
+                  document.getElementById("contact-link").innerText = translations[lang].contact;
+                  document.getElementById("about-title").innerText = translations[lang].aboutTitle;
+                  document.getElementById("who-we-are").innerText = translations[lang].whoWeAre;
+                  document.getElementById("who-we-are-text").innerHTML = translations[lang].whoWeAreText;
+                  document.getElementById("mission").innerText = translations[lang].mission;
+                  document.getElementById("mission-text").innerText = translations[lang].missionText;
+                  document.getElementById("footer-text").innerText = translations[lang].footer;
+              }
+
+              document.getElementById("language-switcher").addEventListener("change", function () {
+                  changeLanguage(this.value);
+              });
+
+              document.addEventListener("DOMContentLoaded", function () {
+              const languageSwitcher = document.getElementById("language-switcher");
+
+              // Функция смены языка
+              function changeLanguage(lang) {
+          localStorage.setItem("selectedLanguage", lang); // Сохраняем язык в localStorage
+
+          document.getElementById("page-title").innerText = translations[lang].title;
+          document.getElementById("home-link").innerText = translations[lang].home;
+          document.getElementById("projects-link").innerText = translations[lang].projects;
+          document.getElementById("contact-link").innerText = translations[lang].contact;
+          document.getElementById("about-title").innerText = translations[lang].aboutTitle;
+          document.getElementById("who-we-are").innerText = translations[lang].whoWeAre;
+          document.getElementById("who-we-are-text").innerHTML = translations[lang].whoWeAreText;
+          document.getElementById("mission").innerText = translations[lang].mission;
+          document.getElementById("mission-text").innerText = translations[lang].missionText;
+          document.getElementById("why-choose-us").innerText = translations[lang].whyChooseUs;
+          document.getElementById("footer-text").innerText = translations[lang].footer;
+
+          // 🔹 Обновляем списки "Чем мы занимаемся?"
+          const whatWeDoList = document.getElementById("what-we-do-list");
+          whatWeDoList.innerHTML = ""; // Очищаем старый список
+          translations[lang].whatWeDoList.forEach(item => {
+              const li = document.createElement("li");
+              li.innerText = item;
+              whatWeDoList.appendChild(li);
+          });
+
+          // 🔹 Обновляем список "Почему выбирают нас?"
+          const whyChooseUsList = document.getElementById("why-choose-us-list");
+          whyChooseUsList.innerHTML = ""; // Очищаем старый список
+          translations[lang].whyChooseUsList.forEach(item => {
+              const li = document.createElement("li");
+              li.innerText = item;
+              whyChooseUsList.appendChild(li);
+          });
+
+          // Меняем язык в селекторе
+          const languageSwitcher = document.getElementById("language-switcher");
+          if (languageSwitcher) {
+              languageSwitcher.value = lang;
+          }
+      }
+
+
+              // При загрузке страницы устанавливаем сохраненный язык
+              const savedLanguage = localStorage.getItem("selectedLanguage") || "ru"; // По умолчанию русский
+              changeLanguage(savedLanguage);
+
+              // Слушатель событий для переключателя языка
+              if (languageSwitcher) {
+                  languageSwitcher.value = savedLanguage; // Устанавливаем селектор в сохраненный язык
+                  languageSwitcher.addEventListener("change", function () {
+                      changeLanguage(this.value);
+                  });
+              }
+          });
+
+          //menu//
+
+      function toggleMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('active');
         }
-
-        document.getElementById("language-switcher").addEventListener("change", function () {
-            changeLanguage(this.value);
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-        const languageSwitcher = document.getElementById("language-switcher");
-
-        // Функция смены языка
-        function changeLanguage(lang) {
-    localStorage.setItem("selectedLanguage", lang); // Сохраняем язык в localStorage
-
-    document.getElementById("page-title").innerText = translations[lang].title;
-    document.getElementById("home-link").innerText = translations[lang].home;
-    document.getElementById("projects-link").innerText = translations[lang].projects;
-    document.getElementById("contact-link").innerText = translations[lang].contact;
-    document.getElementById("about-title").innerText = translations[lang].aboutTitle;
-    document.getElementById("who-we-are").innerText = translations[lang].whoWeAre;
-    document.getElementById("who-we-are-text").innerHTML = translations[lang].whoWeAreText;
-    document.getElementById("mission").innerText = translations[lang].mission;
-    document.getElementById("mission-text").innerText = translations[lang].missionText;
-    document.getElementById("why-choose-us").innerText = translations[lang].whyChooseUs;
-    document.getElementById("footer-text").innerText = translations[lang].footer;
-
-    // 🔹 Обновляем списки "Чем мы занимаемся?"
-    const whatWeDoList = document.getElementById("what-we-do-list");
-    whatWeDoList.innerHTML = ""; // Очищаем старый список
-    translations[lang].whatWeDoList.forEach(item => {
-        const li = document.createElement("li");
-        li.innerText = item;
-        whatWeDoList.appendChild(li);
-    });
-
-    // 🔹 Обновляем список "Почему выбирают нас?"
-    const whyChooseUsList = document.getElementById("why-choose-us-list");
-    whyChooseUsList.innerHTML = ""; // Очищаем старый список
-    translations[lang].whyChooseUsList.forEach(item => {
-        const li = document.createElement("li");
-        li.innerText = item;
-        whyChooseUsList.appendChild(li);
-    });
-
-    // Меняем язык в селекторе
-    const languageSwitcher = document.getElementById("language-switcher");
-    if (languageSwitcher) {
-        languageSwitcher.value = lang;
-    }
-}
-
-
-        // При загрузке страницы устанавливаем сохраненный язык
-        const savedLanguage = localStorage.getItem("selectedLanguage") || "ru"; // По умолчанию русский
-        changeLanguage(savedLanguage);
-
-        // Слушатель событий для переключателя языка
-        if (languageSwitcher) {
-            languageSwitcher.value = savedLanguage; // Устанавливаем селектор в сохраненный язык
-            languageSwitcher.addEventListener("change", function () {
-                changeLanguage(this.value);
-            });
-        }
-    });
-
     </script>
-
-</body>
+  </body>
 </html>
